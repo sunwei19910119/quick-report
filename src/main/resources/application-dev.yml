@@ -1,0 +1,28 @@
+spring:
+    datasource:
+#        type: com.alibaba.druid.pool.DruidDataSource
+        hikari:
+            driverClassName: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://192.168.1.200:3306/quick?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+#            url: jdbc:mysql://192.168.1.222:3306/fxtb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+            username: root
+            password: 123456
+
+
+#多数据源的配置
+dynamic:
+    datasource:
+      slave1:
+            driverClassName: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://192.168.1.222:3306/czyj_base?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+            username: root
+            password: root
+      slave2:
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.1.222:3306/czyj_zbzs?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+
+#短信地址
+sms:
+  url: http://106.15.58.109:9317/message/sendYdMess

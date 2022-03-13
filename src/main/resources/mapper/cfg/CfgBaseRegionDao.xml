@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xhtt.modules.cfg.dao.CfgBaseRegionDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity" id="cfgBaseRegionMap">
+        <result property="regionCode" column="REGION_CODE"/>
+        <result property="parentCode" column="PARENT_CODE"/>
+        <result property="name" column="NAME"/>
+        <result property="type" column="TYPE"/>
+        <result property="level" column="LEVEL"/>
+        <result property="orderNum" column="ORDER_NUM"/>
+    </resultMap>
+
+    <select id="getXzqyCityList" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
+        select * from (
+        <if test="ps.parentCode !=null and ps.parentCode != '' and ps.parentCode=='3204'">
+            select '3204' regionCode,'3204' parentCode,'常州市' name,0 orderNum from DUAL
+            UNION ALL
+        </if>
+        <if test="ps.otherFlag ==null or ps.otherFlag == ''">
+        <if test="ps.parentCode !=null and ps.parentCode != '' and ps.parentCode!='3204'">
+            select REGION_CODE regionCode,PARENT_CODE parentCode,`NAME` name,0 orderNum
+            from czyj_base.cz_base_region
+            <where>
+                <if test="ps.parentCode !=null and ps.parentCode != ''">
+                    and REGION_CODE = #{ps.parentCode}
+                </if>
+                <if test="ps.regionCode !=null and ps.regionCode != ''">
+                    and REGION_CODE = #{ps.parentCode}
+                </if>
+            </where>
+            UNION ALL
+        </if>
+        </if>
+        select  REGION_CODE regionCode,PARENT_CODE parentCode,`NAME` name, order_num orderNum
+        from czyj_base.cz_base_region
+        <where>
+            <if test="ps.parentCode !=null and ps.parentCode != ''">
+                and PARENT_CODE = #{ps.parentCode}
+            </if>
+            <if test="ps.regionCode !=null and ps.regionCode != ''">
+                and REGION_CODE = #{ps.regionCode}
+            </if>
+        </where>
+        ) aa  order by aa.orderNum
+
+    </select>
+
+    <select id="getXzqyList" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
+       select * from czyj_base.cz_base_region where PARENT_CODE=#{parentCode} order by ORDER_NUM
+    </select>
+
+    <select id="getXzqyAll" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
+        select * from czyj_base.cz_base_region
+        <where>
+            <if test="ps.regionCode !=null and ps.regionCode != ''">
+                and REGION_CODE = #{ps.regionCode}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getXzqyCount" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
+        select * from czyj_base.cz_base_region
+        <where>
+           TYPE = "TOWN"
+        </where>
+    </select>
+
+    <select id="getXzqyCountAndTown" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
+        select * from czyj_base.cz_base_region
+        <where>
+            TYPE = "TOWN" or TYPE = "TOWN"
+        </where>
+    </select>
+</mapper>

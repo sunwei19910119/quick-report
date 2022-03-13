@@ -1,0 +1,94 @@
+package com.xhtt.modules.eventType.controller;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import com.xhtt.common.utils.PageUtils;
+import com.xhtt.common.utils.R;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xhtt.modules.eventType.entity.EventTypeEntity;
+import com.xhtt.modules.eventType.service.EventTypeService;
+
+
+
+
+/**
+ * 
+ *
+ * @author chenshun
+ * @email sunlightcs@gmail.com
+ * @date 2022-03-11 14:06:32
+ */
+@RestController
+@RequestMapping("app/eventType")
+public class EventTypeController {
+    @Autowired
+    private EventTypeService eventTypeService;
+
+    /**
+     * 列表
+     */
+    @RequestMapping("/list")
+    @RequiresPermissions("generator:eventtype:list")
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = eventTypeService.queryPage(params);
+
+        return R.ok().put("page", page);
+    }
+
+
+    /**
+     * 信息
+     */
+    @RequestMapping("/info/{id}")
+    @RequiresPermissions("generator:eventtype:info")
+    public R info(@PathVariable("id") Integer id){
+		EventTypeEntity eventType = eventTypeService.getById(id);
+        EventTypeEntity eventTypeEntityParent = null;
+        if(eventType.getLevel() != 0){
+             eventTypeEntityParent = eventTypeService.getById(eventType.getParentId());
+        }
+        return R.ok().put("eventType", eventType).put("parentEventType",eventTypeEntityParent);
+    }
+
+    /**
+     * 保存
+     */
+    @RequestMapping("/save")
+    @RequiresPermissions("generator:eventtype:save")
+    public R save(@RequestBody EventTypeEntity eventType){
+		eventTypeService.save(eventType);
+
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @RequestMapping("/update")
+    @RequiresPermissions("generator:eventtype:update")
+    public R update(@RequestBody EventTypeEntity eventType){
+		eventTypeService.updateById(eventType);
+
+        return R.ok();
+    }
+
+    /**
+     * 删除
+     */
+    @RequestMapping("/delete")
+    @RequiresPermissions("generator:eventtype:delete")
+    public R delete(@RequestBody Integer[] ids){
+		eventTypeService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+}

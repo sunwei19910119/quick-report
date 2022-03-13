@@ -1,0 +1,110 @@
+package com.xhtt.modules.accident.controller;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
+import com.xhtt.common.utils.PageUtils;
+import com.xhtt.common.utils.R;
+import com.xhtt.core.annotation.Login;
+import com.xhtt.core.annotation.LoginUser;
+import com.xhtt.modules.sys.entity.SysUserEntity;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.xhtt.modules.accident.entity.AccidentReportEntity;
+import com.xhtt.modules.accident.service.AccidentReportService;
+
+import javax.validation.Valid;
+
+
+/**
+ * 
+ * 区级上报
+ * @author chenshun
+ * @email sunlightcs@gmail.com
+ * @date 2022-03-09 14:42:11
+ */
+@RestController
+@RequestMapping("app/accidentReport")
+public class AccidentReportController {
+    @Autowired
+    private AccidentReportService accidentReportService;
+
+
+    /**
+     * 区级列表
+     */
+    @RequestMapping("/list")
+    @Login
+    public R list(@RequestParam Map<String, Object> params, @LoginUser SysUserEntity sysUser){
+//        params.put("countyCode",sysUser.getCountyCode()); //区级只能查看用户自己所在区县
+        PageUtils page = accidentReportService.list(params);
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 信息
+     */
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") Integer id){
+		AccidentReportEntity accidentReport = accidentReportService.getById(id);
+        return R.ok().put("accidentReport", accidentReport);
+    }
+
+    /**
+     * 保存
+     */
+    @PostMapping("/save")
+    @Login
+    public R save(@Valid @RequestBody AccidentReportEntity accidentReport, @LoginUser SysUserEntity sysUser){
+        accidentReport.setUploadImage(JSON.toJSONString(accidentReport.getUploadImageList()));
+        accidentReport.setUploadVideo(JSON.toJSONString(accidentReport.getUploadVideoList()));
+        accidentReport.setUploadVoice(JSON.toJSONString(accidentReport.getUploadVoiceList()));
+        accidentReport.setUploadFile(JSON.toJSONString(accidentReport.getUploadFileList()));
+
+        accidentReportService.save(accidentReport);
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @PutMapping("/update")
+    public R update(@RequestBody AccidentReportEntity accidentReport){
+		accidentReportService.updateById(accidentReport);
+
+        return R.ok();
+    }
+
+    /**
+     * 单个删除
+     */
+    @RequestMapping("/deleteById")
+    @Login
+    public R delete(@RequestParam Integer id){
+        accidentReportService.deleteAccidentReportById(id);
+        return R.ok();
+    }
+
+
+    /**
+     * 批量删除
+     */
+    @RequestMapping("/deleteBatch")
+    @Login
+    public R deleteBatch(@RequestParam Integer[] ids){
+		accidentReportService.deleteBatch(ids);
+        return R.ok();
+    }
+
+
+    @PostMapping("/submit")
+    @Login
+    public R submit(@RequestParam int id){
+        return accidentReportService.submit(id);
+    }
+
+
+}

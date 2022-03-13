@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xhtt.modules.duty.dao.UserZbPowerDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.xhtt.modules.duty.entity.UserZbPowerEntity" id="userZbPowerMap">
+        <result property="powerId" column="POWER_ID"/>
+        <result property="userConnectId" column="USER_CONNECT_ID"/>
+        <result property="zbryKey" column="ZBRY_KEY"/>
+        <result property="pbryKey" column="PBRY_KEY"/>
+        <result property="zbldKey" column="ZBLD_KEY"/>
+        <result property="zbsjKey" column="ZBSJ_KEY"/>
+        <result property="zbjsKey" column="ZBJS_KEY"/>
+        <result property="zbzKey" column="ZBZ_KEY"/>
+        <result property="status" column="STATUS"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="creater" column="CREATER"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+        <result property="lastUpdatedBy" column="LAST_UPDATED_BY"/>
+    </resultMap>
+
+
+</mapper>

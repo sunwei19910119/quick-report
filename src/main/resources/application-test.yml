@@ -1,0 +1,23 @@
+spring:
+    datasource:
+#        type: com.alibaba.druid.pool.DruidDataSource
+        hikari:
+            driver-class-name: com.mysql.jdbc.Driver
+            url: jdbc:mysql://192.168.1.253/safety_plus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+            username: root
+            password: root
+
+
+#多数据源的配置
+dynamic:
+  datasource:
+    slave1:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      url: jdbc:sqlserver://192.168.1.78;databaseName=tas
+      username: sa
+      password: 1q2w3e$
+#    slave2:
+#      driver-class-name: org.postgresql.Driver
+#      url: jdbc:postgresql://localhost:5432/renren_security
+#      username: renren
+#      password: 123456

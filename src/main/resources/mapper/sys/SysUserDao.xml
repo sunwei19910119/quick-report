@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xhtt.modules.sys.dao.SysUserDao">
+
+
+    <select id="getUserInfo" resultType="com.xhtt.modules.sys.entity.SysUserEntity">
+        select asu.ID userConnectId,asu.USER_NAME nickName,asu.USER_CODE name
+        from jpress.auth_system_user asu
+        where asu.USER_CODE=#{userCode} limit 1
+    </select>
+
+    <select id="getCityUser" resultType="com.xhtt.modules.sys.entity.SysUserEntity">
+        select asu.ID userConnectId,asu.USER_NAME nickName,asu.USER_CODE name
+        from jpress.auth_system_user asu
+        where asu.ID=#{userConnectId} limit 1
+    </select>
+
+</mapper>

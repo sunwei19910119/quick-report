@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xhtt.modules.accident.dao.AccidentReportDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo" id="accidentReportMapSimple">
+        <result property="id" column="id"/>
+        <result property="level" column="level"/>
+        <result property="companyName" column="company_name"/>
+        <result property="accidentTime" column="accident_time"/>
+        <result property="countyCode" column="county_code"/>
+        <result property="createBy" column="create_by"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <resultMap type="com.xhtt.modules.accident.entity.AccidentReportEntity" id="accidentReportMap">
+        <result property="id" column="id"/>
+        <result property="level" column="level"/>
+        <result property="title" column="title"/>
+        <result property="companyName" column="company_name"/>
+        <result property="countyCode" column="county_code"/>
+        <result property="status" column="status"/>
+        <result property="signer" column="signer"/>
+        <result property="reportTime" column="report_time"/>
+        <result property="receiveTime" column="receive_time"/>
+        <result property="receiveWay" column="receive_way"/>
+        <result property="accidentTime" column="accident_time"/>
+        <result property="accidentSite" column="accident_site"/>
+        <result property="totalPersonRiskCount" column="total_person_risk_count"/>
+        <result property="deathPersonCount" column="death_person_count"/>
+        <result property="missingPersonCount" column="missing_person_count"/>
+        <result property="trappedPersonCount" column="trapped_person_count"/>
+        <result property="injuredPersonCount" column="injured_person_count"/>
+        <result property="poisoningPersonCount" column="poisoning_person_count"/>
+        <result property="accidentDescription" column="accident_description"/>
+        <result property="remark" column="remark"/>
+        <result property="reporter" column="reporter"/>
+        <result property="createBy" column="create_by"/>
+        <result property="departmentHead" column="department_head"/>
+        <result property="phone" column="phone"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="eventLevel" column="event_level"/>
+        <result property="uploadImage" column="upload_image"/>
+        <result property="uploadVideo" column="upload_video"/>
+        <result property="uploadVoice" column="upload_voice"/>
+        <result property="uploadFile" column="upload_file"/>
+        <result property="eventTypeId" column="event_type_id"/>
+        <result property="reportUnit" column="report_unit"/>
+        <result property="copyForUnit" column="copy_for_unit"/>
+        <result property="checkPerson" column="check_person"/>
+        <result property="refuseReason" column="refuse_reason"/>
+        <result property="number" column="number"/>
+        <result property="type" column="type"/>
+        <result property="town_code" column="town_code"/>
+    </resultMap>
+
+    <select id="queryPage" resultMap="accidentReportMapSimple">
+        SELECT * from accident_report where is_delete=0
+            <if test="ps.countyCode !=null and ps.countyCode!=''">
+                and `county_code` = #{ps.countyCode}
+            </if>
+            <if test="ps.status !=null and ps.status!=''">
+                and `status` = #{ps.status}
+            </if>
+            <if test="ps.companyName !=null and ps.companyName!=''">
+                and company_name like CONCAT('%',#{ps.companyName},'%')
+            </if>
+            <if test="ps.accidentTimeStart !=null and ps.accidentTimeStart !=''">
+                and accident_time <![CDATA[>=]]> #{ps.accidentTimeStart}
+            </if>
+            <if test="ps.accidentTimeEnd !=null and ps.accidentTimeEnd !=''">
+                and accident_time <![CDATA[<]]> #{ps.accidentTimeEnd}
+            </if>
+    </select>
+
+    <update id="deleteById" parameterType="Integer">
+        update accident_report set is_delete=1 where id = #{id}
+    </update>
+
+    <update id="deleteBatch" parameterType="Integer">
+        update accident_report set is_delete=1 where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="submit" parameterType="int">
+        update accident_report set status = 1 where id=#{id} and status=0 or status=2
+    </update>
+</mapper>

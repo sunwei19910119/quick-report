@@ -106,7 +106,8 @@
         </foreach>
     </update>
 
+
     <update id="submit" parameterType="int">
-        update accident_report set status = 1 where id=#{id} and status=0 or status=2
+        update accident_report set status = 1 where id=#{id} and status != 1 and status != 3
     </update>
 </mapper>

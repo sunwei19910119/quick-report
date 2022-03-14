@@ -44,7 +44,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
         params.put("level","0");
         Page<AccidentReportSimpleVo> page = new Query<AccidentReportSimpleVo>(params).getPage();
         List<AccidentReportSimpleVo> list = baseMapper.reportList(page, params);
-        list.forEach(this::convertTown);
+        list.forEach(this::convertRegion);
         page.setRecords(list);
         return new PageUtils(page);
     }
@@ -55,7 +55,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
         params.put("level","0");
         Page<AccidentReportSimpleVo> page = new Query<AccidentReportSimpleVo>(params).getPage();
         List<AccidentReportSimpleVo> list = baseMapper.signList(page, params);
-        list.forEach(this::convertTown);
+        list.forEach(this::convertRegion);
         page.setRecords(list);
         return new PageUtils(page);
     }
@@ -76,7 +76,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
         return result == 1 ? R.ok() : R.error("提交失败");
     }
 
-    private void convertTown(AccidentReportSimpleVo accidentReportSimpleVo){
+    private void convertRegion(AccidentReportSimpleVo accidentReportSimpleVo){
         accidentReportSimpleVo.setTownName(redis.get(accidentReportSimpleVo.getTownCode()));
     }
 

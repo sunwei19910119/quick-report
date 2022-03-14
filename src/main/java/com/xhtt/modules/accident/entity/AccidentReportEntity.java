@@ -204,6 +204,12 @@ public class AccidentReportEntity implements Serializable {
 	private Integer economicType;
 
 
+	/**
+	 * 签发时间
+	 */
+	private Date issueDate;
+
+
 	@TableField(exist = false)
 	private List<FileInfoModel> uploadImageList;
 

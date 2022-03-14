@@ -83,6 +83,8 @@ public class AccidentReportController {
         accidentReport.setUploadVideo(JSON.toJSONString(accidentReport.getUploadVideoList()));
         accidentReport.setUploadVoice(JSON.toJSONString(accidentReport.getUploadVoiceList()));
         accidentReport.setUploadFile(JSON.toJSONString(accidentReport.getUploadFileList()));
+
+        //
         accidentReportService.save(accidentReport);
         //如果number为空,插入主键
         if(accidentReport.getNumber() == null || accidentReport.getNumber().isEmpty()){

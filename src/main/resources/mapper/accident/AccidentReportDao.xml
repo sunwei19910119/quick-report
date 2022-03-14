@@ -55,6 +55,7 @@
         <result property="type" column="type"/>
         <result property="townCode" column="town_code"/>
         <result property="economicType" column="economic_type"/>
+        <result property="issueDate" column="issue_date"/>
     </resultMap>
 
     <select id="reportList" resultMap="accidentReportMapSimple">
@@ -77,6 +78,7 @@
             <if test="ps.accidentTimeEnd !=null and ps.accidentTimeEnd !=''">
                 and accident_time <![CDATA[<]]> #{ps.accidentTimeEnd}
             </if>
+            order by accident_time desc
     </select>
 
     <select id="signList" resultMap="accidentReportMapSimple">
@@ -99,6 +101,7 @@
         <if test="ps.accidentTimeEnd !=null and ps.accidentTimeEnd !=''">
             and accident_time <![CDATA[<]]> #{ps.accidentTimeEnd}
         </if>
+        order by accident_time desc
     </select>
 
     <update id="deleteById" parameterType="Integer">
@@ -114,6 +117,7 @@
 
 
     <update id="submit">
-        update accident_report set  status = #{status},refuse_reason=#{refuseReason} where id=#{id}
+        update accident_report set  status = #{status},refuse_reason=#{refuseReason} ,issue_date= NOW()
+        where id=#{id}
     </update>
 </mapper>

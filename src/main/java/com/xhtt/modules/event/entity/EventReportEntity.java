@@ -207,6 +207,10 @@ public class EventReportEntity implements Serializable {
 	 */
 	private Integer accidentReportId;
 
+	/**
+	 * 签发时间
+	 */
+	private Date issueDate;
 
 	@TableField(exist = false)
 	private List<FileInfoModel> uploadImageList;

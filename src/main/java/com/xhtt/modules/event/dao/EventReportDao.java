@@ -24,4 +24,9 @@ public interface EventReportDao extends BaseMapper<EventReportEntity> {
 
     List<EventReportSimpleVo> signList(Page<EventReportSimpleVo> page, @Param("ps") Map<String, Object> params);
 
+    int deleteById(Integer id);
+
+    int deleteBatch(Integer[] ids);
+
+    int submit(int id);
 }

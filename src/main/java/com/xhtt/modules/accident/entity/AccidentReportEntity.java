@@ -91,32 +91,26 @@ public class AccidentReportEntity implements Serializable {
 	/**
 	 * 涉险总人数
 	 */
-	@NotNull
 	private Integer totalPersonRiskCount;
 	/**
 	 * 死亡人数
 	 */
-	@NotNull
 	private Integer deathPersonCount;
 	/**
 	 * 失踪人数
 	 */
-	@NotNull
 	private Integer missingPersonCount;
 	/**
 	 * 被困人数
 	 */
-	@NotNull
 	private Integer trappedPersonCount;
 	/**
 	 * 受伤人数
 	 */
-	@NotNull
 	private Integer injuredPersonCount;
 	/**
 	 * 中毒人数
 	 */
-	@NotNull
 	private Integer poisoningPersonCount;
 	/**
 	 * 事故简况
@@ -209,7 +203,7 @@ public class AccidentReportEntity implements Serializable {
 	 */
 	private Integer economicType;
 
-//	@JsonIgnore
+
 	@TableField(exist = false)
 	private List<FileInfoModel> uploadImageList;
 

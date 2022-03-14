@@ -49,21 +49,21 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
         return new PageUtils(page);
     }
 
-//    @Override
-//    public void deleteAccidentReportById(Integer id) {
-//        accidentReportDao.deleteById(id);
-//    }
-//
-//    @Override
-//    public void deleteBatch(Integer[] ids){
-//        accidentReportDao.deleteBatch(ids);
-//    }
-//
-//    @Override
-//    public R submit(int id) {
-//        int result = accidentReportDao.submit(id);
-//        return result == 1 ? R.ok() : R.error("提交失败");
-//    }
+    @Override
+    public void deleteById(Integer id) {
+        eventReportDao.deleteById(id);
+    }
+
+    @Override
+    public void deleteBatch(Integer[] ids){
+        eventReportDao.deleteBatch(ids);
+    }
+
+    @Override
+    public R submit(int id) {
+        int result = eventReportDao.submit(id);
+        return result == 1 ? R.ok() : R.error("提交失败");
+    }
 
     private void convertCounty(EventReportSimpleVo eventReportSimpleVo){
         eventReportSimpleVo.setCountyName(redis.get(eventReportSimpleVo.getCountyCode()));

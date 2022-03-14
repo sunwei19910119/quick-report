@@ -1,11 +1,24 @@
 package com.xhtt.modules.event.entity;
 
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xhtt.common.file.FileInfoModel;
+import com.xhtt.common.utils.DateUtils;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 事件快报（市级）
@@ -51,10 +64,14 @@ public class EventReportEntity implements Serializable {
 	/**
 	 * 报告时间
 	 */
+	@NotNull
+	@DateTimeFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date reportTime;
 	/**
 	 * 接报信息时间
 	 */
+	@NotNull
+	@DateTimeFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date receiveTime;
 	/**
 	 * 接报信息途径
@@ -63,10 +80,13 @@ public class EventReportEntity implements Serializable {
 	/**
 	 * 事故时间
 	 */
+	@NotNull
+	@DateTimeFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date accidentTime;
 	/**
 	 * 事故地点
 	 */
+	@NotBlank
 	private String accidentSite;
 	/**
 	 * 涉险总人数
@@ -119,6 +139,7 @@ public class EventReportEntity implements Serializable {
 	/**
 	 * 删除 0否 1是
 	 */
+	@JsonIgnore
 	private Integer isDelete;
 	/**
 	 * 续报父ID
@@ -184,5 +205,58 @@ public class EventReportEntity implements Serializable {
 	 * 区级上报ID
 	 */
 	private Integer accidentReportId;
+
+
+	@TableField(exist = false)
+	private List<FileInfoModel> uploadImageList;
+
+	@TableField(exist = false)
+	private List<FileInfoModel> uploadVideoList;
+
+	@TableField(exist = false)
+	private List<FileInfoModel> uploadVoiceList;
+
+	@TableField(exist = false)
+	private List<FileInfoModel> uploadFileList;
+
+	public List<FileInfoModel> getUploadImageList()  {
+		if (null != uploadImageList) {
+			return uploadImageList;
+		} else if (StringUtils.isNotBlank(uploadImage)) {
+			return JSON.parseArray(uploadImage, FileInfoModel.class);
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
+	public List<FileInfoModel> getUploadVideoList()  {
+		if (null != uploadVideoList) {
+			return uploadVideoList;
+		} else if (StringUtils.isNotBlank(uploadVideo)) {
+			return JSON.parseArray(uploadVideo, FileInfoModel.class);
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
+	public List<FileInfoModel> getUploadVoiceList() {
+		if (null != uploadVoiceList) {
+			return uploadVoiceList;
+		} else if (StringUtils.isNotBlank(uploadVoice)) {
+			return JSON.parseArray(uploadVoice, FileInfoModel.class);
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
+	public List<FileInfoModel> getUploadFileList() {
+		if (null != uploadFileList) {
+			return uploadFileList;
+		} else if (StringUtils.isNotBlank(uploadFile)) {
+			return JSON.parseArray(uploadFile, FileInfoModel.class);
+		} else {
+			return new ArrayList<>();
+		}
+	}
 
 }

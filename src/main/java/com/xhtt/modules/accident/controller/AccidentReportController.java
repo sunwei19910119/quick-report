@@ -85,7 +85,7 @@ public class AccidentReportController {
         //如果number为空,插入主键
         if(accidentReport.getNumber() == null || accidentReport.getNumber().isEmpty()){
             accidentReport.setNumber(accidentReport.getId().toString());
-            accidentReportService.save(accidentReport);
+            accidentReportService.updateById(accidentReport);
         }
         return R.ok();
     }

@@ -20,10 +20,10 @@ public interface EventReportService extends IService<EventReportEntity> {
 
     PageUtils signList(Map<String, Object> params);
 
-//    void deleteAccidentReportById(Integer id);
-//
-//    void deleteBatch(Integer[] ids);
+    void deleteById(Integer id);
 
-//    R submit(int id);
+    void deleteBatch(Integer[] ids);
+
+    R submit(int id);
 }
 

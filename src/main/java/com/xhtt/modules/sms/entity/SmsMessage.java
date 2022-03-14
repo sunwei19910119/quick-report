@@ -23,7 +23,7 @@ public class SmsMessage {
     @NotBlank(message = "内容不能为空")
     private String message;
 
-    //手机号
+    //手机号（多个手机号用逗号拼接）
     @NotBlank(message = "手机号不能为空")
     private String mobile;
 

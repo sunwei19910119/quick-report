@@ -175,9 +175,13 @@ public class EventReportEntity implements Serializable {
 	 */
 	private String reportUnit;
 	/**
-	 * 抄送单位
+	 * 抄送单位(逗号分隔)
 	 */
 	private String copyForUnit;
+	/**
+	 * 抄送单位ids(逗号分隔)
+	 */
+	private String copyForUnitIds;
 	/**
 	 * 核稿人
 	 */

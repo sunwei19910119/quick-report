@@ -49,6 +49,7 @@
         <result property="eventTypeId" column="event_type_id"/>
         <result property="reportUnit" column="report_unit"/>
         <result property="copyForUnit" column="copy_for_unit"/>
+        <result property="copyForUnitIds" column="copy_for_unit_ids"/>
         <result property="checkPerson" column="check_person"/>
         <result property="refuseReason" column="refuse_reason"/>
         <result property="number" column="number"/>

@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.xhtt.common.httpclient.HttpClientUtil;
 import com.xhtt.common.utils.DateUtils;
+import com.xhtt.common.utils.RedisUtils;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.event.entity.EventReportEntity;
 import com.xhtt.modules.sms.entity.SmsMessage;
 import com.xhtt.modules.sms.entity.SmsResponse;
 import com.xhtt.modules.sms.service.ISendSmsService;
 import org.apache.commons.lang.text.StrSubstitutor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ import java.util.Map;
  */
 @Service
 public class SendSmsServiceImpl implements ISendSmsService {
+
+     @Autowired
+     RedisUtils redis;
 
      @Value("${sms.url}")
      private String url;
@@ -45,7 +50,7 @@ public class SendSmsServiceImpl implements ISendSmsService {
 
           Map<String, String> map = new HashMap<>();
           map.put("accidentTime", DateUtils.format(accidentReportEntity.getAccidentTime(),DateUtils.DATE_TIME_PATTERN));
-          map.put("countyName", accidentReportEntity.getCountyCode());
+          map.put("countyName", redis.get(accidentReportEntity.getCountyCode()));
           map.put("accidentSite",accidentReportEntity.getAccidentSite());
           map.put("companyName",accidentReportEntity.getCompanyName());
           map.put("accidentDescription",accidentReportEntity.getAccidentDescription());
@@ -56,7 +61,7 @@ public class SendSmsServiceImpl implements ISendSmsService {
           String message = strSubstitutor.replace(template);
 
           SmsMessage smsMessage = new SmsMessage(0,message,"18551098833","",9,"NORMAL");
-          this.sendSms(smsMessage);
+//          this.sendSms(smsMessage);
      }
 
 
@@ -69,7 +74,7 @@ public class SendSmsServiceImpl implements ISendSmsService {
 
           Map<String, String> map = new HashMap<>();
           map.put("accidentTime", DateUtils.format(eventReportEntity.getAccidentTime(),DateUtils.DATE_TIME_PATTERN));
-          map.put("countyName", eventReportEntity.getCountyCode());
+          map.put("countyName", redis.get(eventReportEntity.getCountyCode()));
           map.put("accidentSite",eventReportEntity.getAccidentSite());
           map.put("companyName",eventReportEntity.getCompanyName());
           map.put("accidentDescription",eventReportEntity.getAccidentDescription());
@@ -80,7 +85,7 @@ public class SendSmsServiceImpl implements ISendSmsService {
           String message = strSubstitutor.replace(template);
 
           SmsMessage smsMessage = new SmsMessage(0,message,"18551098833","",9,"NORMAL");
-          this.sendSms(smsMessage);
+//          this.sendSms(smsMessage);
      }
 }
 

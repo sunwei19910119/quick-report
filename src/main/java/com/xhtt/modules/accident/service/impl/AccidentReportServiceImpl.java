@@ -116,7 +116,6 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
         response.setContentType("application/msword");
         // 设置浏览器以下载的方式处理该文件名
         String fileName = map.get("fileName") + ".docx";
-
         response.setHeader("Content-Disposition", "attachment;filename=".concat(String.valueOf(URLEncoder.encode(fileName, "UTF-8"))));
 //        WordUtils.exportWord(response, map, map.get("ftlFile").toString(), map.get("fileName").toString());
         try (OutputStream fos = response.getOutputStream()) {

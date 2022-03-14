@@ -99,11 +99,6 @@ public class AccidentReportController {
     public R update(@RequestBody AccidentReportEntity accidentReport){
 		accidentReportService.updateById(accidentReport);
 
-		//区级签发，同时上报市级
-        if(accidentReport.getStatus() == 3){
-            eventReportService.accidentReport(accidentReport);
-        }
-
         return R.ok();
     }
 
@@ -129,10 +124,15 @@ public class AccidentReportController {
     }
 
 
+    /**
+     * 签发
+     */
     @PostMapping("/submit")
     @Login
-    public R submit(@RequestParam int id){
-        return accidentReportService.submit(id);
+    public R submit(@RequestParam int id,
+                    @RequestParam Integer status,
+                    @RequestParam String refuseReason){
+        return accidentReportService.submit(id,status,refuseReason);
     }
 
 //    /**

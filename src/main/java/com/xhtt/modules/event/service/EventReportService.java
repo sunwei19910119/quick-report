@@ -25,7 +25,7 @@ public interface EventReportService extends IService<EventReportEntity> {
 
     void deleteBatch(Integer[] ids);
 
-    R submit(int id);
+    R submit(int id,Integer status,String refuseReason);
 
     //区级签发上报市级
     void accidentReport(AccidentReportEntity accidentReport);

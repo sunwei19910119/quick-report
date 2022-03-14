@@ -113,8 +113,7 @@
             #{id}
         </foreach>
     </update>
-
-    <update id="submit" parameterType="int">
-        update event_report set status = 1 where id=#{id} and status != 1 and status != 3
+    <update id="submit">
+        update event_report set status = #{status},refuse_reason=#{refuseReason} where id=#{id}
     </update>
 </mapper>

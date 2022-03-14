@@ -28,5 +28,5 @@ public interface EventReportDao extends BaseMapper<EventReportEntity> {
 
     int deleteBatch(Integer[] ids);
 
-    int submit(int id);
+    int submit(int id,Integer status,String refuseReason);
 }

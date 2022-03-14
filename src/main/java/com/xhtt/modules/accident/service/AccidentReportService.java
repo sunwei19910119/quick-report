@@ -28,7 +28,7 @@ public interface AccidentReportService extends IService<AccidentReportEntity> {
 
     void deleteBatch(Integer[] ids);
 
-    R submit(int id);
+    R submit(int id,Integer status,String refuseReason);
 
     //Map<String, Object> getExportMap(Integer id, HttpServletResponse response);
 }

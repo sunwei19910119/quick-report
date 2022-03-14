@@ -19,7 +19,9 @@ import java.util.Map;
 public interface AccidentReportService extends IService<AccidentReportEntity> {
 
 
-    PageUtils list(Map<String, Object> params);
+    PageUtils reportList(Map<String, Object> params);
+
+    PageUtils signList(Map<String, Object> params);
 
     void deleteAccidentReportById(Integer id);
 

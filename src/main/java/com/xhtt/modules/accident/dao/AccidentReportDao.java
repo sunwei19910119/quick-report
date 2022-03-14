@@ -20,7 +20,9 @@ import java.util.Map;
 @Mapper
 public interface AccidentReportDao extends BaseMapper<AccidentReportEntity> {
 
-    List<AccidentReportSimpleVo> queryPage(Page<AccidentReportSimpleVo> page, @Param("ps") Map<String, Object> params);
+    List<AccidentReportSimpleVo> reportList(Page<AccidentReportSimpleVo> page, @Param("ps") Map<String, Object> params);
+
+    List<AccidentReportSimpleVo> signList(Page<AccidentReportSimpleVo> page, @Param("ps") Map<String, Object> params);
 
     int deleteById(Integer id);
 

@@ -34,13 +34,24 @@ public class AccidentReportController {
 
 
     /**
-     * 区级列表
+     * 区级列表（信息上报：草稿，退回，快报退回）
      */
-    @RequestMapping("/list")
+    @RequestMapping("/reportList")
+    @Login
+    public R reportList(@RequestParam Map<String, Object> params, @LoginUser SysUserEntity sysUser){
+//        params.put("countyCode",sysUser.getCountyCode()); //区级只能查看用户自己所在区县
+        PageUtils page = accidentReportService.reportList(params);
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 区级列表（信息签发：待签发，签发完成）
+     */
+    @RequestMapping("/signList")
     @Login
     public R list(@RequestParam Map<String, Object> params, @LoginUser SysUserEntity sysUser){
 //        params.put("countyCode",sysUser.getCountyCode()); //区级只能查看用户自己所在区县
-        PageUtils page = accidentReportService.list(params);
+        PageUtils page = accidentReportService.signList(params);
         return R.ok().put("page", page);
     }
 

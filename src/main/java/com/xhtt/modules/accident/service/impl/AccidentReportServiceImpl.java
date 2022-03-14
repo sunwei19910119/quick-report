@@ -29,20 +29,26 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     @Autowired
     RedisUtils redis;
 
-    public PageUtils queryPage(Map<String, Object> params) {
+    @Override
+    public PageUtils reportList(Map<String, Object> params) {
+        params.put("level","0");
         Page<AccidentReportSimpleVo> page = new Query<AccidentReportSimpleVo>(params).getPage();
-        List<AccidentReportSimpleVo> list = baseMapper.queryPage(page, params);
+        List<AccidentReportSimpleVo> list = baseMapper.reportList(page, params);
         list.forEach(this::convertTown);
         page.setRecords(list);
         return new PageUtils(page);
     }
 
-    @Override
-    public PageUtils list(Map<String, Object> params) {
-        params.put("level","0");
-        return this.queryPage(params);
-    }
 
+    @Override
+    public PageUtils signList(Map<String, Object> params) {
+        params.put("level","0");
+        Page<AccidentReportSimpleVo> page = new Query<AccidentReportSimpleVo>(params).getPage();
+        List<AccidentReportSimpleVo> list = baseMapper.signList(page, params);
+        list.forEach(this::convertTown);
+        page.setRecords(list);
+        return new PageUtils(page);
+    }
 
     @Override
     public void deleteAccidentReportById(Integer id) {

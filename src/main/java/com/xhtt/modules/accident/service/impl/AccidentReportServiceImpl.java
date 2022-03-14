@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhtt.common.file.FileInfoModel;
 import com.xhtt.common.utils.*;
 import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
+import com.xhtt.modules.event.service.EventReportService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -35,6 +36,9 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
 
     @Autowired
     AccidentReportDao accidentReportDao;
+
+    @Autowired
+    EventReportService eventReportService;
 
     @Autowired
     RedisUtils redis;
@@ -71,8 +75,13 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     }
 
     @Override
-    public R submit(int id) {
-        int result = accidentReportDao.submit(id);
+    public R submit(int id,Integer status,String refuseReason) {
+        int result = accidentReportDao.submit(id,status,refuseReason);
+        //区级签发，同时上报市级
+        if(status == 3){
+            AccidentReportEntity accidentReport = this.getById(id);
+            eventReportService.accidentReport(accidentReport);
+        }
         return result == 1 ? R.ok() : R.error("提交失败");
     }
 

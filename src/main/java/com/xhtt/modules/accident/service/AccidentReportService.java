@@ -5,8 +5,10 @@ import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.R;
 import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
+import com.xhtt.modules.sys.entity.SysUserEntity;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,6 @@ public interface AccidentReportService extends IService<AccidentReportEntity> {
 
     R submit(int id,Integer status,String refuseReason);
 
-    //Map<String, Object> getExportMap(Integer id, HttpServletResponse response);
+    Map<String, Object> getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
 }
 

@@ -135,14 +135,14 @@ public class AccidentReportController {
         return accidentReportService.submit(id,status,refuseReason);
     }
 
-//    /**
-//     * 导出快报专报
-//     */
-//    @GetMapping("/export")
-//    @ApiOperation("导出风险告知卡")
-//    @Login
-//    public void export(@RequestParam Integer id, HttpServletResponse response) throws IOException {
-//        Map<String, Object> map = accidentReportService.getExportMap(id, response);
-//    }
+    /**
+     * 导出快报专报
+     */
+    @GetMapping("/export")
+    @ApiOperation("导出风险告知卡")
+    @Login
+    public void export(@RequestParam Integer id, HttpServletResponse response, @LoginUser SysUserEntity user) throws IOException {
+        Map<String, Object> map = accidentReportService.getExportMap(id, response, user);
+    }
 
 }

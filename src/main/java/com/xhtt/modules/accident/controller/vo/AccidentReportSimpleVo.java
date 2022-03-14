@@ -20,10 +20,14 @@ import java.util.Date;
 public class AccidentReportSimpleVo {
 
 
-	/**
-	 * 
-	 */
 	private Integer id;
+
+
+	/**
+	 * 编号
+	 */
+	private String number;
+
 	/**
 	 * 上报类型：0区级，1市级
 	 */
@@ -39,9 +43,9 @@ public class AccidentReportSimpleVo {
 	/**
 	 * 所在区县
 	 */
-	private String countyCode;
+	private String townCode;
 
-	private String countyName;
+	private String townName;
 	/**
 	 * 创建者
 	 */

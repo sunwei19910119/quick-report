@@ -5,6 +5,7 @@ import com.xhtt.modules.cfg.service.CfgBaseRegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,8 +23,8 @@ public class CfgRegionController {
     CfgBaseRegionService cfgBaseRegionService;
 
     @GetMapping("/list")
-    public List<CfgBaseRegionEntity> list(){
-        return cfgBaseRegionService.getXzqyCount();
+    public List<CfgBaseRegionEntity> list(@RequestParam String type){
+        return cfgBaseRegionService.getXzqyByType(type);
     }
 
 }

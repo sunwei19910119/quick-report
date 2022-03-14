@@ -32,7 +32,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     public PageUtils queryPage(Map<String, Object> params) {
         Page<AccidentReportSimpleVo> page = new Query<AccidentReportSimpleVo>(params).getPage();
         List<AccidentReportSimpleVo> list = baseMapper.queryPage(page, params);
-        list.forEach(this::convertCounty);
+        list.forEach(this::convertTown);
         page.setRecords(list);
         return new PageUtils(page);
     }
@@ -60,7 +60,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
         return result == 1 ? R.ok() : R.error("提交失败");
     }
 
-    private void convertCounty(AccidentReportSimpleVo accidentReportSimpleVo){
-        accidentReportSimpleVo.setCountyName(redis.get(accidentReportSimpleVo.getCountyCode()));
+    private void convertTown(AccidentReportSimpleVo accidentReportSimpleVo){
+        accidentReportSimpleVo.setTownName(redis.get(accidentReportSimpleVo.getTownCode()));
     }
 }

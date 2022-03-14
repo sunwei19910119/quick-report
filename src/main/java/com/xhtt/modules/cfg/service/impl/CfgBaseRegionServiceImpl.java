@@ -68,8 +68,8 @@ public class CfgBaseRegionServiceImpl extends ServiceImpl<CfgBaseRegionDao, CfgB
 
     @Override
     @DataSource(value = "slave1")
-    public List<CfgBaseRegionEntity> getXzqyCount(){
-        List<CfgBaseRegionEntity> cfgBaseRegionList = baseMapper.getXzqyCount();
+    public List<CfgBaseRegionEntity> getXzqyByType(String type){
+        List<CfgBaseRegionEntity> cfgBaseRegionList = baseMapper.getXzqyByType(type);
         return cfgBaseRegionList;
     }
 

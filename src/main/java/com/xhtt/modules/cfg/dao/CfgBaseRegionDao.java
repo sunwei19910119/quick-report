@@ -23,7 +23,7 @@ public interface CfgBaseRegionDao extends BaseMapper<CfgBaseRegionEntity> {
 
     List<CfgBaseRegionEntity> getXzqyAll(@Param(value = "ps") Map<String, Object> params);
 
-    List<CfgBaseRegionEntity> getXzqyCount();
+    List<CfgBaseRegionEntity> getXzqyByType(String type);
 
     List<CfgBaseRegionEntity> getXzqyCountAndTown();
 }

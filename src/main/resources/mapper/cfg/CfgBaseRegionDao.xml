@@ -62,10 +62,10 @@
     </select>
 
 
-    <select id="getXzqyCount" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
+    <select id="getXzqyByType" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
         select * from czyj_base.cz_base_region
         <where>
-           TYPE = "TOWN"
+           TYPE = #{type}
         </where>
     </select>
 

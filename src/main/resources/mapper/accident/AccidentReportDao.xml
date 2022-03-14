@@ -53,7 +53,8 @@
         <result property="refuseReason" column="refuse_reason"/>
         <result property="number" column="number"/>
         <result property="type" column="type"/>
-        <result property="town_code" column="town_code"/>
+        <result property="townCode" column="town_code"/>
+        <result property="economicType" column="economic_type"/>
     </resultMap>
 
     <select id="queryPage" resultMap="accidentReportMapSimple">

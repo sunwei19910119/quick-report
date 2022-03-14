@@ -53,7 +53,7 @@ public class AccidentReportEntity implements Serializable {
 	 */
 	private String countyCode;
 	/**
-	 * 状态：0草稿，1待签发，2退回，3签发完成
+	 * 状态：0草稿，1待签发，2退回，3签发完成, 4快报退回
 	 */
 	private Integer status;
 	/**
@@ -203,6 +203,11 @@ public class AccidentReportEntity implements Serializable {
 	 * 所在乡镇
 	 */
 	private Integer townCode;
+
+	/**
+	 * 经济类型 0其他
+	 */
+	private Integer economicType;
 
 //	@JsonIgnore
 	@TableField(exist = false)

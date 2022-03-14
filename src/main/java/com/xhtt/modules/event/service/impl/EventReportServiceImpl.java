@@ -11,6 +11,7 @@ import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.accident.service.AccidentReportService;
 import com.xhtt.modules.event.controller.vo.EventReportSimpleVo;
 import com.xhtt.modules.event.convert.EventReportConvert;
+import com.xhtt.modules.sms.service.ISendSmsService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,9 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
 
     @Autowired
     RedisUtils redis;
+
+    @Autowired
+    ISendSmsService sendSmsService;
 
     @Override
     public PageUtils reportList(Map<String, Object> params) {
@@ -72,14 +76,18 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
     @Override
     public R submit(int id,Integer status,String refuseReason) {
         int result = eventReportDao.submit(id,status,refuseReason);
+        EventReportEntity eventReportInfo = this.getById(id);
         //退回区级
         if(status == 2){
-            EventReportEntity eventReportInfo = this.getById(id);
             if(eventReportInfo.getLevel() == 0 && eventReportInfo.getAccidentReportId() != 0 ){
                 this.accidentReportRefuse(eventReportInfo);
             }
         }
-        System.out.println(result);
+
+        if(status == 3){
+            //签发同时发送短信
+            sendSmsService.sendEventReportSms(eventReportInfo);
+        }
         return result == 1 ? R.ok() : R.error("提交失败");
     }
 

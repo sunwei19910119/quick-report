@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.xhtt.common.exception.RRException;
+import com.xhtt.common.exception.XhttException;
 import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.R;
 import com.xhtt.core.annotation.Login;
@@ -73,6 +75,13 @@ public class EventReportController {
     @PostMapping("/save")
     @Login
     public R save(@Valid @RequestBody EventReportEntity eventReport, @LoginUser SysUserEntity sysUser){
+        //续报必须上次的已经签发
+        if(eventReport.getParentId() != null && eventReport.getParentId() != 0){
+            EventReportEntity parentEntity = eventReportService.getById(eventReport.getParentId());
+            if(parentEntity.getStatus() != 3){
+                throw new RRException("首次上报签发通过后，才能进行续报");
+            }
+        }
         eventReport.setUploadImage(JSON.toJSONString(eventReport.getUploadImageList()));
         eventReport.setUploadVideo(JSON.toJSONString(eventReport.getUploadVideoList()));
         eventReport.setUploadVoice(JSON.toJSONString(eventReport.getUploadVoiceList()));

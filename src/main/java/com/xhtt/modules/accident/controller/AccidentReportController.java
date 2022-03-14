@@ -8,11 +8,14 @@ import java.util.Map;
 
 import cn.afterturn.easypoi.word.WordExportUtil;
 import com.alibaba.fastjson.JSON;
+import com.xhtt.common.exception.RRException;
 import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.R;
 import com.xhtt.core.annotation.Login;
 import com.xhtt.core.annotation.LoginUser;
+import com.xhtt.modules.event.entity.EventReportEntity;
 import com.xhtt.modules.event.service.EventReportService;
+import com.xhtt.modules.sms.service.ISendSmsService;
 import com.xhtt.modules.sys.entity.SysUserEntity;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -40,8 +43,6 @@ public class AccidentReportController {
     @Autowired
     private AccidentReportService accidentReportService;
 
-    @Autowired
-    private EventReportService eventReportService;
     /**
      * 区级列表（信息上报：草稿，退回，快报退回）
      */
@@ -79,6 +80,13 @@ public class AccidentReportController {
     @PostMapping("/save")
     @Login
     public R save(@Valid @RequestBody AccidentReportEntity accidentReport, @LoginUser SysUserEntity sysUser){
+        //续报必须上次的已经签发
+        if(accidentReport.getParentId() != null && accidentReport.getParentId() != 0){
+            AccidentReportEntity parentEntity = accidentReportService.getById(accidentReport.getParentId());
+            if(parentEntity.getStatus() != 3){
+                throw new RRException("首次上报签发通过后，才能进行续报");
+            }
+        }
         accidentReport.setUploadImage(JSON.toJSONString(accidentReport.getUploadImageList()));
         accidentReport.setUploadVideo(JSON.toJSONString(accidentReport.getUploadVideoList()));
         accidentReport.setUploadVoice(JSON.toJSONString(accidentReport.getUploadVoiceList()));
@@ -100,7 +108,6 @@ public class AccidentReportController {
     @PutMapping("/update")
     public R update(@RequestBody AccidentReportEntity accidentReport){
 		accidentReportService.updateById(accidentReport);
-
         return R.ok();
     }
 

@@ -9,6 +9,7 @@ import com.xhtt.common.file.FileInfoModel;
 import com.xhtt.common.utils.*;
 import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
 import com.xhtt.modules.event.service.EventReportService;
+import com.xhtt.modules.sms.service.ISendSmsService;
 import com.xhtt.modules.sys.entity.SysUserEntity;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -42,6 +43,9 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
 
     @Autowired
     EventReportService eventReportService;
+
+    @Autowired
+    private ISendSmsService sendSmsService;
 
     @Autowired
     RedisUtils redis;
@@ -80,12 +84,17 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     @Override
     public R submit(int id,Integer status,String refuseReason) {
         int result = accidentReportDao.submit(id,status,refuseReason);
-        //区级签发，同时上报市级
-        if(status == 3){
-            AccidentReportEntity accidentReport = this.getById(id);
-            eventReportService.accidentReport(accidentReport);
+        if(result != 1){
+            return  R.error("提交失败");
         }
-        return result == 1 ? R.ok() : R.error("提交失败");
+        AccidentReportEntity accidentReport = this.getById(id);
+        if(status == 3){
+            //区级签发，同时上报市级
+            eventReportService.accidentReport(accidentReport);
+            //签发同时发送短信
+            sendSmsService.sendAccidentReportSms(accidentReport);
+        }
+        return R.ok();
     }
 
     private void convertRegion(AccidentReportSimpleVo accidentReportSimpleVo){

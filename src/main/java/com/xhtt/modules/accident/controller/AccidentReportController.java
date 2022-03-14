@@ -12,6 +12,7 @@ import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.R;
 import com.xhtt.core.annotation.Login;
 import com.xhtt.core.annotation.LoginUser;
+import com.xhtt.modules.event.service.EventReportService;
 import com.xhtt.modules.sys.entity.SysUserEntity;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -39,7 +40,8 @@ public class AccidentReportController {
     @Autowired
     private AccidentReportService accidentReportService;
 
-
+    @Autowired
+    private EventReportService eventReportService;
     /**
      * 区级列表（信息上报：草稿，退回，快报退回）
      */
@@ -96,6 +98,11 @@ public class AccidentReportController {
     @PutMapping("/update")
     public R update(@RequestBody AccidentReportEntity accidentReport){
 		accidentReportService.updateById(accidentReport);
+
+		//区级签发，同时上报市级
+        if(accidentReport.getStatus() == 3){
+            eventReportService.accidentReport(accidentReport);
+        }
 
         return R.ok();
     }

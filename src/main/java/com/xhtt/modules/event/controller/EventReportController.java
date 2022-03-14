@@ -93,7 +93,13 @@ public class EventReportController {
     @RequestMapping("/update")
     public R update(@RequestBody EventReportEntity eventReport){
 		eventReportService.updateById(eventReport);
-
+        //退回区级
+        if(eventReport.getStatus() == 2){
+            EventReportEntity eventReportInfo = eventReportService.getById(eventReport.getId());
+            if(eventReportInfo.getLevel() == 0 && eventReportInfo.getAccidentReportId() != 0 ){
+                eventReportService.accidentReportRefuse(eventReportInfo);
+            }
+        }
         return R.ok();
     }
 

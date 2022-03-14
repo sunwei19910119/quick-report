@@ -37,7 +37,7 @@
 		<fastjson.version>1.2.47</fastjson.version>
 		<hutool.version>5.3.9</hutool.version>
 		<org.apache.poi>3.9</org.apache.poi>
-
+		<mapstruct.version>1.4.2.Final</mapstruct.version>
 		<!--wagon plugin 配置 自动部署到linux远程服务器-->
 		<service-path>/work/renren</service-path>
 		<pack-name>${project.artifactId}-${project.version}.jar</pack-name>
@@ -443,6 +443,21 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-jdk8</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-processor</artifactId>
+			<version>${mapstruct.version}</version>
 		</dependency>
 	</dependencies>
 

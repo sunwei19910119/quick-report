@@ -13,6 +13,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xhtt.common.file.FileInfoModel;
 import com.xhtt.common.utils.DateUtils;
+import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -258,5 +259,4 @@ public class EventReportEntity implements Serializable {
 			return new ArrayList<>();
 		}
 	}
-
 }

@@ -7,7 +7,11 @@ import com.xhtt.common.utils.R;
 import com.xhtt.common.utils.RedisUtils;
 import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
 import com.xhtt.modules.accident.dao.AccidentReportDao;
+import com.xhtt.modules.accident.entity.AccidentReportEntity;
+import com.xhtt.modules.accident.service.AccidentReportService;
 import com.xhtt.modules.event.controller.vo.EventReportSimpleVo;
+import com.xhtt.modules.event.convert.EventReportConvert;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +30,12 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
 
     @Autowired
     EventReportDao eventReportDao;
+
+    @Autowired
+    AccidentReportDao accidentReportDao;
+
+    @Autowired
+    AccidentReportService accidentReportService;
 
     @Autowired
     RedisUtils redis;
@@ -69,4 +79,25 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
         eventReportSimpleVo.setCountyName(redis.get(eventReportSimpleVo.getCountyCode()));
     }
 
+    //区级签发的同时上报市级
+    @Override
+    public void accidentReport(AccidentReportEntity accidentReport){
+        EventReportConvert eventReportConvert = Mappers.getMapper(EventReportConvert.class);
+        EventReportEntity eventReportEntity = eventReportConvert.convert(accidentReport);
+        eventReportEntity.setStatus(5);
+        eventReportEntity.setAccidentReportId(accidentReport.getId());
+        this.save(eventReportEntity);
+    }
+
+
+    //区级签发回退
+    @Override
+    public void accidentReportRefuse(EventReportEntity eventReportEntity){
+        this.deleteById(eventReportEntity.getId());
+        AccidentReportEntity accidentReportEntity = accidentReportService.getById(eventReportEntity.getAccidentReportId());
+        accidentReportEntity.setStatus(4);
+        accidentReportEntity.setRefuseReason(eventReportEntity.getRefuseReason());
+        accidentReportService.updateById(accidentReportEntity);
+
+    }
 }

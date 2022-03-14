@@ -1,14 +1,20 @@
 package com.xhtt.modules.accident.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Map;
 
+import cn.afterturn.easypoi.word.WordExportUtil;
 import com.alibaba.fastjson.JSON;
 import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.R;
 import com.xhtt.core.annotation.Login;
 import com.xhtt.core.annotation.LoginUser;
 import com.xhtt.modules.sys.entity.SysUserEntity;
+import io.swagger.annotations.ApiOperation;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.accident.service.AccidentReportService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 
@@ -121,5 +128,14 @@ public class AccidentReportController {
         return accidentReportService.submit(id);
     }
 
+//    /**
+//     * 导出快报专报
+//     */
+//    @GetMapping("/export")
+//    @ApiOperation("导出风险告知卡")
+//    @Login
+//    public void export(@RequestParam Integer id, HttpServletResponse response) throws IOException {
+//        Map<String, Object> map = accidentReportService.getExportMap(id, response);
+//    }
 
 }

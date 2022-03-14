@@ -6,6 +6,7 @@ import com.xhtt.common.utils.R;
 import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -28,5 +29,7 @@ public interface AccidentReportService extends IService<AccidentReportEntity> {
     void deleteBatch(Integer[] ids);
 
     R submit(int id);
+
+    //Map<String, Object> getExportMap(Integer id, HttpServletResponse response);
 }
 

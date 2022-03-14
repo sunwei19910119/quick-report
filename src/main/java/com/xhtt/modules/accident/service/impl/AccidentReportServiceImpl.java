@@ -1,14 +1,22 @@
 package com.xhtt.modules.accident.service.impl;
 
+import cn.afterturn.easypoi.entity.ImageEntity;
+import cn.afterturn.easypoi.word.WordExportUtil;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.extra.qrcode.QrCodeUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xhtt.common.utils.PageUtils;
-import com.xhtt.common.utils.Query;
-import com.xhtt.common.utils.R;
-import com.xhtt.common.utils.RedisUtils;
+import com.xhtt.common.file.FileInfoModel;
+import com.xhtt.common.utils.*;
 import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,6 +26,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhtt.modules.accident.dao.AccidentReportDao;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.accident.service.AccidentReportService;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 @Service("accidentReportService")
@@ -69,4 +79,25 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     private void convertTown(AccidentReportSimpleVo accidentReportSimpleVo){
         accidentReportSimpleVo.setTownName(redis.get(accidentReportSimpleVo.getTownCode()));
     }
+
+//    @Override
+//    public Map<String, Object> getExportMap(Integer id, HttpServletResponse response) {
+//        Map<String, Object> map = new HashMap<>();
+//        AccidentReportEntity accidentReportEntity = getById(id);
+//        accidentReportEntity.
+//
+//                response.setCharacterEncoding("utf-8");
+//        response.setContentType("application/msword");
+//        // 设置浏览器以下载的方式处理该文件名
+//        String fileName = map.get("fileName") + ".docx";
+//        response.setHeader("Content-Disposition", "attachment;filename=".concat(String.valueOf(URLEncoder.encode(fileName, "UTF-8"))));
+////        WordUtils.exportWord(response, map, map.get("ftlFile").toString(), map.get("fileName").toString());
+//        try (OutputStream fos = response.getOutputStream()) {
+//            XWPFDocument doc = WordExportUtil.exportWord07("templates/risk/fxgzk" + map.get("level") + ".docx", map);
+//            doc.write(fos);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return map;
+//    }
 }

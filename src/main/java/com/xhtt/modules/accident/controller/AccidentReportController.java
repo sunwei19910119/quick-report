@@ -185,4 +185,13 @@ public class AccidentReportController {
         accidentReportService.getExportMapList(ids, response, user);
     }
 
+
+    /**
+     * number校验
+     */
+    @GetMapping("/checkNumber")
+    public R checkNumber(@RequestParam String number) {
+        return accidentReportService.checkNumber(number);
+    }
+
 }

@@ -36,7 +36,6 @@ public class EventTypeController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("generator:eventtype:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = eventTypeService.queryPage(params);
 
@@ -48,7 +47,6 @@ public class EventTypeController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("generator:eventtype:info")
     public R info(@PathVariable("id") Integer id){
 		EventTypeEntity eventType = eventTypeService.getById(id);
         EventTypeEntity eventTypeEntityParent = null;
@@ -62,7 +60,6 @@ public class EventTypeController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("generator:eventtype:save")
     public R save(@RequestBody EventTypeEntity eventType){
 		eventTypeService.save(eventType);
 
@@ -73,7 +70,6 @@ public class EventTypeController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("generator:eventtype:update")
     public R update(@RequestBody EventTypeEntity eventType){
 		eventTypeService.updateById(eventType);
 
@@ -84,7 +80,6 @@ public class EventTypeController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("generator:eventtype:delete")
     public R delete(@RequestBody Integer[] ids){
 		eventTypeService.removeByIds(Arrays.asList(ids));
 

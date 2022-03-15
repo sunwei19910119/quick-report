@@ -29,4 +29,6 @@ public interface AccidentReportDao extends BaseMapper<AccidentReportEntity> {
     int deleteBatch(Integer[] ids);
 
     int submit(int id,Integer status,String refuseReason);
+
+    int checkNumber(String number);
 }

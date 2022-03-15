@@ -35,5 +35,7 @@ public interface AccidentReportService extends IService<AccidentReportEntity> {
     void getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
 
     void getExportMapList(List<Integer> ids, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
+
+    R checkNumber(String number);
 }
 

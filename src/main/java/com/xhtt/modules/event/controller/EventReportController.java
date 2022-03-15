@@ -19,6 +19,7 @@ import com.xhtt.modules.dept.entity.DeptEntity;
 import com.xhtt.modules.dept.service.DeptService;
 import com.xhtt.modules.sys.entity.SysUserEntity;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -73,7 +74,9 @@ public class EventReportController {
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Integer id){
 		EventReportEntity eventReport = eventReportService.getById(id);
-
+        if(eventReport.getCopyForUnitIdsList() == null && StringUtils.isNotBlank(eventReport.getCopyForUnitIds())){
+            eventReport.setCopyForUnitIdsList(eventReport.getCopyForUnitIds().split(","));
+        }
         return R.ok().put("eventReport", eventReport);
     }
 

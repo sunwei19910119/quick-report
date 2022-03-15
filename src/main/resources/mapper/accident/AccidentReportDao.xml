@@ -130,7 +130,7 @@
 
     <update id="submit">
         update accident_report set  status = #{status},refuse_reason=#{refuseReason} ,issue_date= NOW()
-        where id=#{id}
+        where id=#{id} and `status` != "3"
     </update>
 
     <select id="checkNumber" resultType="int">

@@ -24,6 +24,7 @@ import com.xhtt.modules.event.service.EventReportService;
 import com.xhtt.modules.sms.service.ISendSmsService;
 import com.xhtt.modules.sys.entity.SysUserEntity;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,10 @@ public class AccidentReportController {
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Integer id){
 		AccidentReportEntity accidentReport = accidentReportService.getById(id);
+
+        if(accidentReport.getCopyForUnitIdsList() == null && StringUtils.isNotBlank(accidentReport.getCopyForUnitIds())){
+            accidentReport.setCopyForUnitIdsList(accidentReport.getCopyForUnitIds().split(","));
+        }
         return R.ok().put("accidentReport", accidentReport);
     }
 

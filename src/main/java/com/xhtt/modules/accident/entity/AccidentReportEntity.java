@@ -1,5 +1,6 @@
 package com.xhtt.modules.accident.entity;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -178,6 +179,7 @@ public class AccidentReportEntity implements Serializable {
 	 */
 	private String copyForUnit;
 
+
 	/**
 	 * 抄送单位ids(逗号分隔)
 	 */
@@ -219,11 +221,12 @@ public class AccidentReportEntity implements Serializable {
 	 */
 	private String createUserConnectId;
 
+
 	/**
 	 * 抄送部门ids
 	 */
 	@TableField(exist = false)
-	private Integer[] copyForUnitIdsList;
+	private String[] copyForUnitIdsList;
 
 	@TableField(exist = false)
 	private List<FileInfoModel> uploadImageList;

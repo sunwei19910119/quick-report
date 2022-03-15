@@ -18,6 +18,6 @@ public interface DeptService extends IService<DeptEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    List<DeptEntity> selectDeptListByIds(Integer[] ids);
+    List<DeptEntity> selectDeptListByIds(String[] ids);
 }
 

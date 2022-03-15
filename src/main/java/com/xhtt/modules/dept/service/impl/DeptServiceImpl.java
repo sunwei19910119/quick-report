@@ -33,7 +33,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptDao, DeptEntity> implements
     }
 
     @Override
-    public List<DeptEntity> selectDeptListByIds(Integer[] ids) {
+    public List<DeptEntity> selectDeptListByIds(String[] ids) {
         return deptDao.selectDeptListByIds(ids);
     }
 

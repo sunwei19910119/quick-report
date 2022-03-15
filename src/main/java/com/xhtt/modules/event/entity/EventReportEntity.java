@@ -226,7 +226,7 @@ public class EventReportEntity implements Serializable {
 	 * 抄送部门ids
 	 */
 	@TableField(exist = false)
-	private Integer[] copyForUnitIdsList;
+	private String[] copyForUnitIdsList;
 
 	@TableField(exist = false)
 	private List<FileInfoModel> uploadImageList;

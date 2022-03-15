@@ -180,15 +180,15 @@ public class AccidentReportController {
         accidentReportService.getExportMap(id, response, user);
     }
 
-    /**
-     * 导出区级多个快报专报
-     */
-    @GetMapping("/exportList")
-    @ApiOperation("导出风险告知卡")
-    @Login
-    public void exportList(@RequestParam List<Integer> ids, HttpServletResponse response, @LoginUser SysUserEntity user) throws IOException {
-        accidentReportService.getExportMapList(ids, response, user);
-    }
+//    /**
+//     * 导出区级多个快报专报
+//     */
+//    @GetMapping("/exportList")
+//    @ApiOperation("导出风险告知卡")
+//    @Login
+//    public void exportList(@RequestParam List<Integer> ids, HttpServletResponse response, @LoginUser SysUserEntity user) throws IOException {
+//        accidentReportService.getExportMapList(ids, response, user);
+//    }
 
 
     /**

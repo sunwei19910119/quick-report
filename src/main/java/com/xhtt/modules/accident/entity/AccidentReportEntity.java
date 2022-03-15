@@ -167,7 +167,7 @@ public class AccidentReportEntity implements Serializable {
 	/**
 	 * 事件类型ID
 	 */
-	private String eventTypeId;
+	private Integer eventTypeId;
 
 	/**
 	 * 上报单位

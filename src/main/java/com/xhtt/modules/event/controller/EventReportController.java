@@ -100,6 +100,8 @@ public class EventReportController {
             List<String> deptNames = deptEntities.stream().map(DeptEntity::getName).collect(Collectors.toList());
             eventReport.setCopyForUnit(String.join(",",deptNames));
         }
+        //记录创建者市平台ID
+        eventReport.setCreateUserConnectId(sysUser.getUserConnectId());
         eventReportService.save(eventReport);
         //如果number为空,插入主键
         if(eventReport.getNumber() == null || eventReport.getNumber().isEmpty()){

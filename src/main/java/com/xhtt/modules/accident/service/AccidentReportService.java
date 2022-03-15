@@ -22,9 +22,9 @@ import java.util.Map;
 public interface AccidentReportService extends IService<AccidentReportEntity> {
 
 
-    PageUtils reportList(Map<String, Object> params);
+    PageUtils reportList(Map<String, Object> params,SysUserEntity sysUser);
 
-    PageUtils signList(Map<String, Object> params);
+    PageUtils signList(Map<String, Object> params,SysUserEntity sysUser);
 
     void deleteAccidentReportById(Integer id);
 

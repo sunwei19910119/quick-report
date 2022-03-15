@@ -57,8 +57,7 @@ public class AccidentReportController {
     @RequestMapping("/reportList")
     @Login
     public R reportList(@RequestParam Map<String, Object> params, @LoginUser SysUserEntity sysUser){
-//        params.put("countyCode",sysUser.getCountyCode()); //区级只能查看用户自己所在区县
-        PageUtils page = accidentReportService.reportList(params);
+        PageUtils page = accidentReportService.reportList(params,sysUser);
         return R.ok().put("page", page);
     }
 
@@ -68,8 +67,7 @@ public class AccidentReportController {
     @RequestMapping("/signList")
     @Login
     public R list(@RequestParam Map<String, Object> params, @LoginUser SysUserEntity sysUser){
-//        params.put("countyCode",sysUser.getCountyCode()); //区级只能查看用户自己所在区县
-        PageUtils page = accidentReportService.signList(params);
+        PageUtils page = accidentReportService.signList(params,sysUser);
         return R.ok().put("page", page);
     }
 
@@ -107,8 +105,8 @@ public class AccidentReportController {
             List<String> deptNames = deptEntities.stream().map(DeptEntity::getName).collect(Collectors.toList());
             accidentReport.setCopyForUnit(String.join(",",deptNames));
         }
-
-
+        //记录创建者市平台ID
+        accidentReport.setCreateUserConnectId(sysUser.getUserConnectId());
         accidentReportService.save(accidentReport);
         //如果number为空,插入主键
         if(accidentReport.getNumber() == null || accidentReport.getNumber().isEmpty()){

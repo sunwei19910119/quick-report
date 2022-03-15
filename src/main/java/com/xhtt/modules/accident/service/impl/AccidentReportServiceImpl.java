@@ -54,7 +54,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     RedisUtils redis;
 
     @Override
-    public PageUtils reportList(Map<String, Object> params) {
+    public PageUtils reportList(Map<String, Object> params,SysUserEntity sysUser) {
         params.put("level","0");
         Page<AccidentReportSimpleVo> page = new Query<AccidentReportSimpleVo>(params).getPage();
         List<AccidentReportSimpleVo> list = baseMapper.reportList(page, params);
@@ -65,7 +65,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
 
 
     @Override
-    public PageUtils signList(Map<String, Object> params) {
+    public PageUtils signList(Map<String, Object> params,SysUserEntity sysUser) {
         params.put("level","0");
         Page<AccidentReportSimpleVo> page = new Query<AccidentReportSimpleVo>(params).getPage();
         List<AccidentReportSimpleVo> list = baseMapper.signList(page, params);

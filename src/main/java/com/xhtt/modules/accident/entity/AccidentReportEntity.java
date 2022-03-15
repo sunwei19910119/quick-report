@@ -214,6 +214,10 @@ public class AccidentReportEntity implements Serializable {
 	 */
 	private Date issueDate;
 
+	/**
+	 * 创建者市平台id
+	 */
+	private String createUserConnectId;
 
 	/**
 	 * 抄送部门ids

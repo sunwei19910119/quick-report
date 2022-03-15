@@ -59,8 +59,10 @@
         <result property="townCode" column="town_code"/>
         <result property="accidentReportId" column="accident_report_id"/>
         <result property="issueDate" column="issue_date"/>
+        <result property="createUserConnectId" column="create_user_connect_id"/>
     </resultMap>
 
+    <!-- 普通员工查看自己创建的列表-->
     <select id="reportList" resultMap="eventReportMapSimple">
         SELECT * from event_report where is_delete=0 and `status` in (0,2,5)
         <if test="ps.countyCode !=null and ps.countyCode!=''">
@@ -81,9 +83,11 @@
         <if test="ps.accidentTimeEnd !=null and ps.accidentTimeEnd !=''">
             and accident_time <![CDATA[<]]> #{ps.accidentTimeEnd}
         </if>
+        and create_user_connect_id = #{ps.createUserConnectId}
         order by accident_time desc
     </select>
 
+    <!-- 普通员工查看自己创建的列表-->
     <select id="signList" resultMap="eventReportMapSimple">
         SELECT * from event_report where is_delete=0 and `status` in (1,3)
         <if test="ps.countyCode !=null and ps.countyCode!=''">
@@ -104,6 +108,7 @@
         <if test="ps.accidentTimeEnd !=null and ps.accidentTimeEnd !=''">
             and accident_time <![CDATA[<]]> #{ps.accidentTimeEnd}
         </if>
+        and create_user_connect_id = #{ps.createUserConnectId}
         order by accident_time desc
     </select>
 

@@ -100,6 +100,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
             List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByBmdm(sysUser.getBmdm());
             baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
         }
+        params.put("list",userConnectIds);
         List<AccidentReportSimpleVo> list = baseMapper.signList(page, params);
         list.forEach(this::convertRegion);
         page.setRecords(list);

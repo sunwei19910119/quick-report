@@ -6,6 +6,7 @@ import com.xhtt.modules.cfg.entity.CzBaseZfyhjbxxEntity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 政府用户基本信息
@@ -19,5 +20,7 @@ public interface CzBaseZfyhjbxxService extends IService<CzBaseZfyhjbxxEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     List<CzBaseZfyhjbxxEntity> selectListByBmdm(String bmdm);
+
+    List<CzBaseZfyhjbxxEntity> selectListByUserIds( Set<String> connectUserIds);
 }
 

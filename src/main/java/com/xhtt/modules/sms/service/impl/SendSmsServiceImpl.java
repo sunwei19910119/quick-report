@@ -1,11 +1,19 @@
 package com.xhtt.modules.sms.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.xhtt.common.httpclient.HttpClientUtil;
 import com.xhtt.common.utils.DateUtils;
 import com.xhtt.common.utils.RedisUtils;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
+import com.xhtt.modules.cfg.dao.CzBaseManageUserlevelDao;
+import com.xhtt.modules.cfg.dao.CzBaseZfyhjbxxDao;
+import com.xhtt.modules.cfg.entity.CzBaseManageUserlevelEntity;
+import com.xhtt.modules.cfg.entity.CzBaseZfyhjbxxEntity;
+import com.xhtt.modules.cfg.service.CzBaseManageUserlevelService;
+import com.xhtt.modules.cfg.service.CzBaseZfyhjbxxService;
 import com.xhtt.modules.event.entity.EventReportEntity;
 import com.xhtt.modules.sms.entity.SmsMessage;
 import com.xhtt.modules.sms.entity.SmsResponse;
@@ -15,8 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author SunWei
@@ -28,6 +35,12 @@ public class SendSmsServiceImpl implements ISendSmsService {
 
      @Autowired
      RedisUtils redis;
+
+     @Autowired
+     CzBaseManageUserlevelService baseManageUserlevelService;
+
+     @Autowired
+     CzBaseZfyhjbxxService baseZfyhjbxxService;
 
      @Value("${sms.url}")
      private String url;
@@ -60,6 +73,9 @@ public class SendSmsServiceImpl implements ISendSmsService {
           StrSubstitutor strSubstitutor = new StrSubstitutor(map);
           String message = strSubstitutor.replace(template);
 
+          String copyForUnitIds = accidentReportEntity.getCopyForUnitIds();
+          String mobiles = getMobiles(copyForUnitIds);
+
           SmsMessage smsMessage = new SmsMessage(0,message,"18551098833","",9,"NORMAL");
 //          this.sendSms(smsMessage);
      }
@@ -84,8 +100,42 @@ public class SendSmsServiceImpl implements ISendSmsService {
           StrSubstitutor strSubstitutor = new StrSubstitutor(map);
           String message = strSubstitutor.replace(template);
 
+          String copyForUnitIds = eventReportEntity.getCopyForUnitIds();
+          String mobiles = getMobiles(copyForUnitIds);
+
           SmsMessage smsMessage = new SmsMessage(0,message,"18551098833","",9,"NORMAL");
 //          this.sendSms(smsMessage);
+     }
+
+
+     /**
+      * @author: SunWei
+      * @date: 2022/3/15 14:16
+      * @param:
+      * @return:
+      * @description: 获取接收短信的领导手机号(逗号拼接)
+      */
+     public String getMobiles(String copyForUnitIds){
+          Set<String> connectUserIds = new HashSet<>();
+          Set<String> connectUserPhones = new HashSet<>();
+          //胥亚伟id
+          connectUserIds.add("32047191");
+          //获取抄送单位部门领导id和手机号
+          if(!StrUtil.hasEmpty(copyForUnitIds)){
+               String[] copyForUnitIdsArray = copyForUnitIds.split(",");
+               List<CzBaseManageUserlevelEntity> baseManageUserlevelEntities = baseManageUserlevelService.selectListByDeptCodes(copyForUnitIdsArray);
+               baseManageUserlevelEntities.stream().forEach(
+                       a -> {
+                            connectUserIds.add(a.getCsUserid());
+                            connectUserIds.add(a.getFgDeptCode());
+                       });
+          }
+          List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByUserIds(connectUserIds);
+          baseZfyhjbxxEntities.stream().forEach(
+                  a -> {
+                       connectUserPhones.add(a.getMobile());
+                  });
+          return CollUtil.join(connectUserPhones, ",");
      }
 }
 

@@ -23,8 +23,17 @@
         <result property="lastUpdateDate" column="LAST_UPDATE_DATE"/>
     </resultMap>
 
+    <!-- 判断是否为部门领导 -->
     <select id="isManager" resultMap="czBaseManageUserlevelMap">
         select * from cz_base_manage_userlevel where cs_dept_code = #{deptCode} and
             (cs_userid = #{userConnectId} or fg_dept_code = #{userConnectId})
+    </select>
+
+    <!-- 根据部门编号集合查询 -->
+    <select id="selectListByDeptCodes" resultMap="czBaseManageUserlevelMap">
+        select * from cz_base_manage_userlevel where cs_dept_code in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
 </mapper>

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -40,4 +42,9 @@ public class CzBaseZfyhjbxxServiceImpl extends ServiceImpl<CzBaseZfyhjbxxDao, Cz
         return baseZfyhjbxxDao.selectListByBmdm(bmdm);
     }
 
+    @Override
+    @DataSource(value = "slave1")
+    public List<CzBaseZfyhjbxxEntity> selectListByUserIds( Set<String> connectUserIds){
+        return baseZfyhjbxxDao.selectListByUserIds(connectUserIds);
+    }
 }

@@ -5,6 +5,8 @@ import com.xhtt.modules.cfg.entity.CzBaseManageUserlevelEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 政府用户科室管理人员权限
  * 
@@ -15,6 +17,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CzBaseManageUserlevelDao extends BaseMapper<CzBaseManageUserlevelEntity> {
 
+
     CzBaseManageUserlevelEntity isManager(String deptCode,String userConnectId);
-	
+
+
+	List<CzBaseManageUserlevelEntity> selectListByDeptCodes(String[] deptCodes);
 }

@@ -5,6 +5,7 @@ import com.xhtt.modules.cfg.entity.CzBaseZfyhjbxxEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 政府用户基本信息
@@ -16,4 +17,6 @@ import java.util.List;
 @Mapper
 public interface CzBaseZfyhjbxxDao extends BaseMapper<CzBaseZfyhjbxxEntity> {
     List<CzBaseZfyhjbxxEntity> selectListByBmdm(String bmdm);
+
+    List<CzBaseZfyhjbxxEntity> selectListByUserIds(Set<String> ids);
 }

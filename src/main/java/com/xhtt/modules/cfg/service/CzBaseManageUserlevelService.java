@@ -5,6 +5,7 @@ import com.xhtt.common.utils.PageUtils;
 import com.xhtt.modules.cfg.entity.CzBaseManageUserlevelEntity;
 
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,5 +21,7 @@ public interface CzBaseManageUserlevelService extends IService<CzBaseManageUserl
 
     //判断当前用户是否为处室负责人或者分管领导
     boolean isManager(String deptCode,String userConnectId);
+
+    List<CzBaseManageUserlevelEntity> selectListByDeptCodes(String[] copyForUnitIds );
 }
 

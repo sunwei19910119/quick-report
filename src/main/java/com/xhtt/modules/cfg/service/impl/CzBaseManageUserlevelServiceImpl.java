@@ -5,6 +5,8 @@ import com.xhtt.common.utils.Query;
 import com.xhtt.datasource.annotation.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -39,5 +41,12 @@ public class CzBaseManageUserlevelServiceImpl extends ServiceImpl<CzBaseManageUs
         CzBaseManageUserlevelEntity baseManageUserlevel = baseManageUserlevelDao.isManager(deptCode,userConnectId);
         return baseManageUserlevel != null;
     }
+
+    @Override
+    @DataSource(value = "slave1")
+    public List<CzBaseManageUserlevelEntity> selectListByDeptCodes(String[] copyForUnitIds ){
+        return baseManageUserlevelDao.selectListByDeptCodes(copyForUnitIds);
+    }
+
 
 }

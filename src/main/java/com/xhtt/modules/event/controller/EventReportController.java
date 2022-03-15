@@ -47,8 +47,8 @@ public class EventReportController {
      */
     @RequestMapping("/reportList")
     @Login
-    public R reportList(@RequestParam Map<String, Object> params){
-        PageUtils page = eventReportService.reportList(params);
+    public R reportList(@RequestParam Map<String, Object> params,@LoginUser SysUserEntity sysUser){
+        PageUtils page = eventReportService.reportList(params,sysUser);
         return R.ok().put("page", page);
     }
 
@@ -59,7 +59,7 @@ public class EventReportController {
     @RequestMapping("/signList")
     @Login
     public R list(@RequestParam Map<String, Object> params, @LoginUser SysUserEntity sysUser){
-        PageUtils page = eventReportService.signList(params);
+        PageUtils page = eventReportService.signList(params,sysUser);
         return R.ok().put("page", page);
     }
 
@@ -104,10 +104,10 @@ public class EventReportController {
         eventReport.setCreateUserConnectId(sysUser.getUserConnectId());
         eventReportService.save(eventReport);
         //如果number为空,插入主键
-        if(eventReport.getNumber() == null || eventReport.getNumber().isEmpty()){
-            eventReport.setNumber(eventReport.getId().toString());
-            eventReportService.updateById(eventReport);
-        }
+//        if(eventReport.getNumber() == null || eventReport.getNumber().isEmpty()){
+//            eventReport.setNumber(eventReport.getId().toString());
+//            eventReportService.updateById(eventReport);
+//        }
         return R.ok();
     }
 

@@ -135,7 +135,7 @@ public class SsoLoginServiceImpl implements SsoLoginService {
 
                         if (returnInfo.getData().getUserInfo().get("userName") != null && returnInfo.getData().getUserInfo().get("userName") != "") {
                             LocalDateTime t6 = LocalDateTime.now();
-                            sysUser = this.check(returnInfo.getData().getUserInfo(), sysGovernmentInfo.getId(), 2, token,level);
+                            sysUser = this.check(returnInfo.getData().getUserInfo(), sysGovernmentInfo.getId(), 2, token,level,returnInfo.getData().getThirdPartInfo());
                             java.time.Duration duration6 = java.time.Duration.between(t6, LocalDateTime.now());
                             System.out.println("政府端添加用户信息验证：" + sysUser.getNickName() + " 政府端添加用户信息验证花费时间：" + duration6.toMillis() + " ms");
                         }
@@ -156,7 +156,7 @@ public class SsoLoginServiceImpl implements SsoLoginService {
     }
 
 
-    private SysUserEntity check(Map<String, Object> userInfo, Integer orgId, Integer type, String token,Integer level) {
+    private SysUserEntity check(Map<String, Object> userInfo, Integer orgId, Integer type, String token,Integer level,ThirdPartInfoMode thirdPartInfoMode) {
         SysUserEntity sysUser2 = this.verification(userInfo);
         String userConnectId = null;
         if (userInfo.get("userConnectId") != null) {
@@ -178,6 +178,7 @@ public class SsoLoginServiceImpl implements SsoLoginService {
             }
             sysUser.setLevel(level);
             sysUser.setUserConnectId(userConnectId);
+            sysUser.setBmdm(thirdPartInfoMode.getBmdm());
             sysUser.setCitySysToken(token);
             sysUser.setNickName(sysUser2.getNickName());
             sysUser.setLastLoginDate(LocalDateTime.now());

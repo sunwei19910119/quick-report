@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xhtt.modules.cfg.dao.CzBaseZfyhjbxxDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.xhtt.modules.cfg.entity.CzBaseZfyhjbxxEntity" id="czBaseZfyhjbxxMap">
+        <result property="userId" column="USER_ID"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="areaId" column="AREA_ID"/>
+        <result property="groupId" column="GROUP_ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="isAdmin" column="IS_ADMIN"/>
+        <result property="nickName" column="NICK_NAME"/>
+        <result property="department" column="DEPARTMENT"/>
+        <result property="mobile" column="MOBILE"/>
+        <result property="jjrq" column="JJRQ"/>
+        <result property="sfbmfzr" column="SFBMFZR"/>
+        <result property="sfzx" column="SFZX"/>
+        <result property="bgdh" column="BGDH"/>
+        <result property="bmdm" column="BMDM"/>
+        <result property="xh" column="XH"/>
+        <result property="gljg" column="GLJG"/>
+        <result property="sfzh" column="SFZH"/>
+        <result property="xb" column="XB"/>
+        <result property="mz" column="MZ"/>
+        <result property="zzmm" column="ZZMM"/>
+        <result property="zgxl" column="ZGXL"/>
+        <result property="byyx" column="BYYX"/>
+        <result property="sxzy" column="SXZY"/>
+        <result property="xzj" column="XZJ"/>
+        <result property="zwlb" column="ZWLB"/>
+        <result property="sflb" column="SFLB"/>
+        <result property="zwcj" column="ZWCJ"/>
+        <result property="zwmc" column="ZWMC"/>
+        <result property="khfl" column="KHFL"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="dwid" column="DWID"/>
+        <result property="szqx" column="SZQX"/>
+        <result property="szxz" column="SZXZ"/>
+        <result property="szcw" column="SZCW"/>
+        <result property="zfdwmc" column="ZFDWMC"/>
+        <result property="sfsjxgznbm" column="SFSJXGZNBM"/>
+        <result property="sfzxzz" column="SFZXZZ"/>
+        <result property="zfzh" column="ZFZH"/>
+    </resultMap>
+
+    <select id="selectListByBmdm" resultMap="czBaseZfyhjbxxMap">
+        select * from cz_base_zfyhjbxx where bmdm = #{bmdm};
+    </select>
+</mapper>

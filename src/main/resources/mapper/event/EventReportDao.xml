@@ -83,7 +83,10 @@
         <if test="ps.accidentTimeEnd !=null and ps.accidentTimeEnd !=''">
             and accident_time <![CDATA[<]]> #{ps.accidentTimeEnd}
         </if>
-        and create_user_connect_id = #{ps.createUserConnectId}
+        and create_user_connect_id in
+        <foreach collection="ps.list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
         order by accident_time desc
     </select>
 
@@ -108,7 +111,10 @@
         <if test="ps.accidentTimeEnd !=null and ps.accidentTimeEnd !=''">
             and accident_time <![CDATA[<]]> #{ps.accidentTimeEnd}
         </if>
-        and create_user_connect_id = #{ps.createUserConnectId}
+        and create_user_connect_id in
+        <foreach collection="ps.list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
         order by accident_time desc
     </select>
 

@@ -27,5 +27,6 @@ public class SsoUserInfoMode implements Serializable {
     String accountNonLocked;
     String credentialsNonExpired;
     String userConnectId;
+    String bmdm;
 
 }

@@ -54,7 +54,7 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
         SysUserEntity user = userService.getOne(new LambdaQueryWrapper<SysUserEntity>().eq(SysUserEntity::getUserId, object)
                 .select(SysUserEntity::getUserId, SysUserEntity::getName, SysUserEntity::getWorkNo,
                         SysUserEntity::getMobile, SysUserEntity::getOrgId, SysUserEntity::getType,
-                        SysUserEntity::getNickName, SysUserEntity::getUserConnectId,SysUserEntity::getLevel));
+                        SysUserEntity::getNickName, SysUserEntity::getUserConnectId,SysUserEntity::getLevel,SysUserEntity::getBmdm));
         if (user.getType() != null) {
             if (user.getType() == 2) {
                 SysGovernmentInfoEntity sysGovernmentInfo = sysGovernmentInfoService.getById(user.getOrgId());

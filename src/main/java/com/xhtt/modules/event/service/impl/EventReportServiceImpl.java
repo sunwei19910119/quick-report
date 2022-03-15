@@ -9,13 +9,18 @@ import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
 import com.xhtt.modules.accident.dao.AccidentReportDao;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.accident.service.AccidentReportService;
+import com.xhtt.modules.cfg.entity.CzBaseZfyhjbxxEntity;
+import com.xhtt.modules.cfg.service.CzBaseManageUserlevelService;
+import com.xhtt.modules.cfg.service.CzBaseZfyhjbxxService;
 import com.xhtt.modules.event.controller.vo.EventReportSimpleVo;
 import com.xhtt.modules.event.convert.EventReportConvert;
 import com.xhtt.modules.sms.service.ISendSmsService;
+import com.xhtt.modules.sys.entity.SysUserEntity;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -44,8 +49,26 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
     @Autowired
     ISendSmsService sendSmsService;
 
+    @Autowired
+    private CzBaseManageUserlevelService baseManageUserlevelService;
+
+    @Autowired
+    private CzBaseZfyhjbxxService baseZfyhjbxxService;
+
     @Override
-    public PageUtils reportList(Map<String, Object> params) {
+    public PageUtils reportList(Map<String, Object> params, SysUserEntity sysUser) {
+        List<String> userConnectIds = new ArrayList<>();
+        //普通用户仅可查看自己创建的，部门领导可以查看所在部门所有
+        //判断当前用户是否为处室负责人，或者分管领导
+        boolean isManager = baseManageUserlevelService.isManager(sysUser.getBmdm(),sysUser.getUserConnectId());
+        if(isManager == false){
+            userConnectIds.add(sysUser.getUserConnectId());
+        }else{
+            //领导查询所在部门的所有人员id
+            List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByBmdm(sysUser.getBmdm());
+            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
+        }
+
         Page<EventReportSimpleVo> page = new Query<EventReportSimpleVo>(params).getPage();
         List<EventReportSimpleVo> list = baseMapper.reportList(page, params);
         list.forEach(this::convertCounty);
@@ -55,7 +78,19 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
 
 
     @Override
-    public PageUtils signList(Map<String, Object> params) {
+    public PageUtils signList(Map<String, Object> params, SysUserEntity sysUser) {
+        List<String> userConnectIds = new ArrayList<>();
+        //普通用户仅可查看自己创建的，部门领导可以查看所在部门所有
+        //判断当前用户是否为处室负责人，或者分管领导
+        boolean isManager = baseManageUserlevelService.isManager(sysUser.getBmdm(),sysUser.getUserConnectId());
+        if(isManager == false){
+            userConnectIds.add(sysUser.getUserConnectId());
+        }else{
+            //领导查询所在部门的所有人员id
+            List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByBmdm(sysUser.getBmdm());
+            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
+        }
+
         Page<EventReportSimpleVo> page = new Query<EventReportSimpleVo>(params).getPage();
         List<EventReportSimpleVo> list = baseMapper.signList(page, params);
         list.forEach(this::convertCounty);

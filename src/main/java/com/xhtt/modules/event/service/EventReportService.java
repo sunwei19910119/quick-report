@@ -5,6 +5,7 @@ import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.R;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.event.entity.EventReportEntity;
+import com.xhtt.modules.sys.entity.SysUserEntity;
 
 import java.util.Map;
 
@@ -17,9 +18,9 @@ import java.util.Map;
  */
 public interface EventReportService extends IService<EventReportEntity> {
 
-    PageUtils reportList(Map<String, Object> params);
+    PageUtils reportList(Map<String, Object> params, SysUserEntity sysUser);
 
-    PageUtils signList(Map<String, Object> params);
+    PageUtils signList(Map<String, Object> params, SysUserEntity sysUser);
 
     void deleteById(Integer id);
 

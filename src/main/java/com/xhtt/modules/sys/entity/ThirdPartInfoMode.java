@@ -53,6 +53,7 @@ public class ThirdPartInfoMode implements Serializable {
     Integer promiseApplied;
     Integer safetyDirector;
     Integer employeesNum;
+    String bmdm;
     ThirdPartInfoMode companyInfo;
 
 

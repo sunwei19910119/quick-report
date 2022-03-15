@@ -104,6 +104,12 @@ public class SysUserEntity {
     private String userConnectId;
 
     /**
+     * 部门代码
+     */
+    @TableField(value ="BMDM")
+    private String bmdm;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;

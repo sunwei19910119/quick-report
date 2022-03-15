@@ -9,6 +9,9 @@ import com.xhtt.common.exception.RRException;
 import com.xhtt.common.file.FileInfoModel;
 import com.xhtt.common.utils.*;
 import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
+import com.xhtt.modules.cfg.entity.CzBaseZfyhjbxxEntity;
+import com.xhtt.modules.cfg.service.CzBaseManageUserlevelService;
+import com.xhtt.modules.cfg.service.CzBaseZfyhjbxxService;
 import com.xhtt.modules.event.service.EventReportService;
 import com.xhtt.modules.sms.service.ISendSmsService;
 import com.xhtt.modules.sys.entity.SysUserEntity;
@@ -51,13 +54,31 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     private ISendSmsService sendSmsService;
 
     @Autowired
+    private CzBaseManageUserlevelService baseManageUserlevelService;
+
+    @Autowired
+    private CzBaseZfyhjbxxService baseZfyhjbxxService;
+
+    @Autowired
     RedisUtils redis;
 
     @Override
     public PageUtils reportList(Map<String, Object> params,SysUserEntity sysUser) {
         params.put("level","0");
         Page<AccidentReportSimpleVo> page = new Query<AccidentReportSimpleVo>(params).getPage();
-        List<AccidentReportSimpleVo> list = baseMapper.reportList(page, params);
+        List<String> userConnectIds = new ArrayList<>();
+        //普通用户仅可查看自己创建的，部门领导可以查看所在部门所有
+        //判断当前用户是否为处室负责人，或者分管领导
+        boolean isManager = baseManageUserlevelService.isManager(sysUser.getBmdm(),sysUser.getUserConnectId());
+        if(isManager == false){
+            userConnectIds.add(sysUser.getUserConnectId());
+        }else{
+            //领导查询所在部门的所有人员id
+            List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByBmdm(sysUser.getBmdm());
+            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
+        }
+        params.put("list",userConnectIds);
+        List<AccidentReportSimpleVo> list  = baseMapper.reportList(page, params);
         list.forEach(this::convertRegion);
         page.setRecords(list);
         return new PageUtils(page);
@@ -68,6 +89,17 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     public PageUtils signList(Map<String, Object> params,SysUserEntity sysUser) {
         params.put("level","0");
         Page<AccidentReportSimpleVo> page = new Query<AccidentReportSimpleVo>(params).getPage();
+        List<String> userConnectIds = new ArrayList<>();
+        //普通用户仅可查看自己创建的，部门领导可以查看所在部门所有
+        //判断当前用户是否为处室负责人，或者分管领导
+        boolean isManager = baseManageUserlevelService.isManager(sysUser.getBmdm(),sysUser.getUserConnectId());
+        if(isManager == false){
+            userConnectIds.add(sysUser.getUserConnectId());
+        }else{
+            //领导查询所在部门的所有人员id
+            List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByBmdm(sysUser.getBmdm());
+            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
+        }
         List<AccidentReportSimpleVo> list = baseMapper.signList(page, params);
         list.forEach(this::convertRegion);
         page.setRecords(list);

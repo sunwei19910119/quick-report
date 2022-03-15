@@ -5,6 +5,7 @@ import cn.afterturn.easypoi.word.WordExportUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.qrcode.QrCodeUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xhtt.common.exception.RRException;
 import com.xhtt.common.file.FileInfoModel;
 import com.xhtt.common.utils.*;
 import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -102,42 +105,63 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     }
 
     @Override
-    public Map<String, Object> getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException {
+    public void getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException {
         Map<String, Object> map = new HashMap<>();
         LocalDateTime now = LocalDateTime.now();
         AccidentReportEntity accidentReportEntity = getById(id);
 
         map.put("year", now.getYear());
-        map.put("moon", now.getMonth().toString());
-        map.put("day", now.toString());
+        map.put("moon", now.getMonthValue());
+        map.put("day", DateUtils.format(new Date(),"dd"));
         map.put("companyName", accidentReportEntity.getCompanyName());
-        map.put("accidentTime", accidentReportEntity.getAccidentTime().toString());
+        map.put("accidentTime", DateUtils.format(accidentReportEntity.getAccidentTime(), DateUtils.DATE_TIME_PATTERN));
         map.put("accidentSite", accidentReportEntity.getAccidentSite());
         map.put("accidentDescription", accidentReportEntity.getAccidentDescription());
-        map.put("receiveWay", accidentReportEntity.getReceiveWay());
-        map.put("receiveTime", accidentReportEntity.getReceiveTime().toString());
-        map.put("copyForUnit", accidentReportEntity.getCopyForUnit());
-        map.put("userName", user.getName());
+        map.put("nickName", user.getNickName());
+        map.put("number", accidentReportEntity.getNumber());
+        map.put("countyCode", redis.get(accidentReportEntity.getCountyCode()));
         map.put("signer", accidentReportEntity.getSigner());
-
+        map.put("reportUnit", accidentReportEntity.getReportUnit());
+        map.put("copyForUnit", accidentReportEntity.getCopyForUnit());
+        map.put("receiveWay", accidentReportEntity.getReceiveWay());
+        map.put("issueDate", DateUtils.format(accidentReportEntity.getIssueDate(), DateUtils.DATE_TIME_PATTERN));
 
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/msword");
-        // 设置浏览器以下载的方式处理该文件名
-        String fileName = map.get("fileName") + ".docx";
+        String fileName= null;
+        if (accidentReportEntity.getType() == 0){
+             fileName = "值班快报" + ".docx";
+        }else {
+             fileName = "突发事件信息专报" + ".docx";
+        }
+
         response.setHeader("Content-Disposition", "attachment;filename=".concat(String.valueOf(URLEncoder.encode(fileName, "UTF-8"))));
-//        WordUtils.exportWord(response, map, map.get("ftlFile").toString(), map.get("fileName").toString());
+        //WordUtils.exportWord(response, map, map.get("ftlFile").toString(), map.get("fileName").toString());
         try (OutputStream fos = response.getOutputStream()) {
             if (accidentReportEntity.getType() == 0){
-                XWPFDocument doc = WordExportUtil.exportWord07("templates/值班快报" + ".docx", map);
+                XWPFDocument doc = WordExportUtil.exportWord07("templates/zbkb" + ".docx", map);
                 doc.write(fos);
             }else {
-                XWPFDocument doc = WordExportUtil.exportWord07("templates/突发事件信息专报" + ".docx", map);
+                XWPFDocument doc = WordExportUtil.exportWord07("templates/tfsjxxzb" + ".docx", map);
                 doc.write(fos);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return map;
+    }
+
+    @Override
+    public void getExportMapList(List<Integer> ids, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException {
+        Map<String, Object> map = new HashMap<>();
+        if (CollectionUtils.isEmpty(ids)){
+            throw new RRException("参数错误");
+        }
+        ids.forEach(id -> {
+            try {
+                getExportMap(id,response,user);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

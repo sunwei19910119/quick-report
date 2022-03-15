@@ -174,7 +174,17 @@ public class AccidentReportController {
     @ApiOperation("导出风险告知卡")
     @Login
     public void export(@RequestParam Integer id, HttpServletResponse response, @LoginUser SysUserEntity user) throws IOException {
-        Map<String, Object> map = accidentReportService.getExportMap(id, response, user);
+        accidentReportService.getExportMap(id, response, user);
+    }
+
+    /**
+     * 导出多个快报专报
+     */
+    @GetMapping("/exportList")
+    @ApiOperation("导出风险告知卡")
+    @Login
+    public void exportList(@RequestParam List<Integer> ids, HttpServletResponse response, @LoginUser SysUserEntity user) throws IOException {
+        accidentReportService.getExportMapList(ids, response, user);
     }
 
 }

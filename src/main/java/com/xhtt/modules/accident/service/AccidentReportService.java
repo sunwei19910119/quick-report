@@ -32,6 +32,8 @@ public interface AccidentReportService extends IService<AccidentReportEntity> {
 
     R submit(int id,Integer status,String refuseReason);
 
-    Map<String, Object> getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
+    void getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
+
+    void getExportMapList(List<Integer> ids, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
 }
 

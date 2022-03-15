@@ -203,7 +203,7 @@ public class AccidentReportEntity implements Serializable {
 	/**
 	 * 所在乡镇
 	 */
-	private Integer townCode;
+	private String townCode;
 
 	/**
 	 * 经济类型 0其他

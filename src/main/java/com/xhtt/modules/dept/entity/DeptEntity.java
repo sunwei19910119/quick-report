@@ -33,4 +33,7 @@ public class DeptEntity implements Serializable {
 	 */
 	private String szqx;
 
+
+	private String bmdm;
+
 }

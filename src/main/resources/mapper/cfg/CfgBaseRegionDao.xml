@@ -72,7 +72,7 @@
     <select id="getXzqyCountAndTown" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
         select * from czyj_base.cz_base_region
         <where>
-            TYPE = "TOWN" or TYPE = "TOWN"
+            TYPE = "TOWN" or TYPE = "COUNTY"
         </where>
     </select>
 </mapper>

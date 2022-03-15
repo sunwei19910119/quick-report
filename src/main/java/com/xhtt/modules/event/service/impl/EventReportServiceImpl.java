@@ -205,4 +205,11 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
             e.printStackTrace();
         }
     }
+
+
+    @Override
+    public R checkNumber(String number) {
+        int count = eventReportDao.checkNumber(number);
+        return count == 0 ? R.ok() : R.error("编号不能重复");
+    }
 }

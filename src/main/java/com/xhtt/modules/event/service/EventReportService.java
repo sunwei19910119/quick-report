@@ -38,5 +38,6 @@ public interface EventReportService extends IService<EventReportEntity> {
 
     void getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
 
+    R checkNumber(String number);
 }
 

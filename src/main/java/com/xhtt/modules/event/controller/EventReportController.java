@@ -173,4 +173,15 @@ public class EventReportController {
     public void export(@RequestParam Integer id, HttpServletResponse response, @LoginUser SysUserEntity user) throws IOException {
         eventReportService.getExportMap(id, response, user);
     }
+
+
+
+    /**
+     * number校验
+     */
+    @GetMapping("/checkNumber")
+    public R checkNumber(@RequestParam String number) {
+        return eventReportService.checkNumber(number);
+    }
+
 }

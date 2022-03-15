@@ -197,4 +197,10 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
             }
         });
     }
+
+    @Override
+    public R checkNumber(String number) {
+        int count = accidentReportDao.checkNumber(number);
+        return count == 0 ? R.ok() : R.error("编号不能重复");
+    }
 }

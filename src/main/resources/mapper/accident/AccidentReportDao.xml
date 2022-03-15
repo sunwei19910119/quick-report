@@ -132,4 +132,8 @@
         update accident_report set  status = #{status},refuse_reason=#{refuseReason} ,issue_date= NOW()
         where id=#{id}
     </update>
+
+    <select id="checkNumber" resultType="int">
+        select count(*) from accident_report where `number`=#{number} and is_delete=0
+    </select>
 </mapper>

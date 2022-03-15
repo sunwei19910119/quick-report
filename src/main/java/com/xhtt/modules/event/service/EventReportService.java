@@ -7,6 +7,8 @@ import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.event.entity.EventReportEntity;
 import com.xhtt.modules.sys.entity.SysUserEntity;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
@@ -33,6 +35,8 @@ public interface EventReportService extends IService<EventReportEntity> {
 
     //市级回退区级签发
     void accidentReportRefuse(EventReportEntity eventReportEntity);
+
+    void getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
 
 }
 

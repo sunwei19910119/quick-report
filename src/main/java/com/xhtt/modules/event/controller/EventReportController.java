@@ -1,5 +1,6 @@
 package com.xhtt.modules.event.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.dept.entity.DeptEntity;
 import com.xhtt.modules.dept.service.DeptService;
 import com.xhtt.modules.sys.entity.SysUserEntity;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import com.xhtt.modules.event.entity.EventReportEntity;
 import com.xhtt.modules.event.service.EventReportService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 
@@ -158,5 +161,16 @@ public class EventReportController {
                     @RequestParam Integer status,
                     @RequestParam String refuseReason){
         return eventReportService.submit(id,status,refuseReason);
+    }
+
+
+    /**
+     * 导出市级快报专报
+     */
+    @GetMapping("/export")
+    @ApiOperation("导出风险告知卡")
+    @Login
+    public void export(@RequestParam Integer id, HttpServletResponse response, @LoginUser SysUserEntity user) throws IOException {
+        eventReportService.getExportMap(id, response, user);
     }
 }

@@ -166,7 +166,7 @@ public class AccidentReportController {
     }
 
     /**
-     * 导出快报专报
+     * 导出区级快报专报
      */
     @GetMapping("/export")
     @ApiOperation("导出风险告知卡")
@@ -176,7 +176,7 @@ public class AccidentReportController {
     }
 
     /**
-     * 导出多个快报专报
+     * 导出区级多个快报专报
      */
     @GetMapping("/exportList")
     @ApiOperation("导出风险告知卡")

@@ -146,7 +146,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
         map.put("moon", now.getMonthValue());
         map.put("day", DateUtils.format(new Date(),"dd"));
         map.put("companyName", accidentReportEntity.getCompanyName());
-        map.put("accidentTime", DateUtils.format(accidentReportEntity.getAccidentTime(), DateUtils.DATE_TIME_PATTERN));
+        map.put("accidentTime", DateUtils.format(accidentReportEntity.getAccidentTime(), DateUtils.DATE_PATTERN));
         map.put("accidentSite", accidentReportEntity.getAccidentSite());
         map.put("accidentDescription", accidentReportEntity.getAccidentDescription());
         map.put("nickName", user.getNickName());

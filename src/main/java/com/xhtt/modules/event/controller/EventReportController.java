@@ -1,8 +1,11 @@
 package com.xhtt.modules.event.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.fastjson.JSON;
 import com.xhtt.common.exception.RRException;
 import com.xhtt.common.exception.XhttException;
@@ -11,6 +14,8 @@ import com.xhtt.common.utils.R;
 import com.xhtt.core.annotation.Login;
 import com.xhtt.core.annotation.LoginUser;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
+import com.xhtt.modules.dept.entity.DeptEntity;
+import com.xhtt.modules.dept.service.DeptService;
 import com.xhtt.modules.sys.entity.SysUserEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +40,8 @@ public class EventReportController {
     @Autowired
     private EventReportService eventReportService;
 
-
+    @Autowired
+    private DeptService deptService;
     /**
      * 市级列表（信息上报：草稿，退回,区级待上报）
      */
@@ -62,7 +68,6 @@ public class EventReportController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("generator:eventreport:info")
     public R info(@PathVariable("id") Integer id){
 		EventReportEntity eventReport = eventReportService.getById(id);
 
@@ -86,6 +91,15 @@ public class EventReportController {
         eventReport.setUploadVideo(JSON.toJSONString(eventReport.getUploadVideoList()));
         eventReport.setUploadVoice(JSON.toJSONString(eventReport.getUploadVoiceList()));
         eventReport.setUploadFile(JSON.toJSONString(eventReport.getUploadFileList()));
+
+
+        //处理抄送单位IDS
+        if(ArrayUtil.isNotEmpty(eventReport.getCopyForUnitIdsList())){
+            eventReport.setCopyForUnitIds(ArrayUtil.join(eventReport.getCopyForUnitIdsList(),","));
+            List<DeptEntity> deptEntities = deptService.selectDeptListByIds(eventReport.getCopyForUnitIdsList());
+            List<String> deptNames = deptEntities.stream().map(DeptEntity::getName).collect(Collectors.toList());
+            eventReport.setCopyForUnit(String.join(",",deptNames));
+        }
         eventReportService.save(eventReport);
         //如果number为空,插入主键
         if(eventReport.getNumber() == null || eventReport.getNumber().isEmpty()){
@@ -101,6 +115,13 @@ public class EventReportController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody EventReportEntity eventReport){
+        //处理抄送单位IDS
+        if(ArrayUtil.isNotEmpty(eventReport.getCopyForUnitIdsList())){
+            eventReport.setCopyForUnitIds(ArrayUtil.join(eventReport.getCopyForUnitIdsList(),","));
+            List<DeptEntity> deptEntities = deptService.selectDeptListByIds(eventReport.getCopyForUnitIdsList());
+            List<String> deptNames = deptEntities.stream().map(DeptEntity::getName).collect(Collectors.toList());
+            eventReport.setCopyForUnit(String.join(",",deptNames));
+        }
 		eventReportService.updateById(eventReport);
         return R.ok();
     }

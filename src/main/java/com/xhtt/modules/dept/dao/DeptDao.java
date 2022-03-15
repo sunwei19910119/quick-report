@@ -4,6 +4,8 @@ import com.xhtt.modules.dept.entity.DeptEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 抄送单位
  * 
@@ -13,5 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface DeptDao extends BaseMapper<DeptEntity> {
-	
+
+    List<DeptEntity> selectDeptListByIds(Integer[] ids);
 }

@@ -4,15 +4,21 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import cn.afterturn.easypoi.word.WordExportUtil;
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.fastjson.JSON;
 import com.xhtt.common.exception.RRException;
 import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.R;
 import com.xhtt.core.annotation.Login;
 import com.xhtt.core.annotation.LoginUser;
+import com.xhtt.modules.dept.entity.DeptEntity;
+import com.xhtt.modules.dept.service.DeptService;
 import com.xhtt.modules.event.entity.EventReportEntity;
 import com.xhtt.modules.event.service.EventReportService;
 import com.xhtt.modules.sms.service.ISendSmsService;
@@ -43,6 +49,8 @@ public class AccidentReportController {
     @Autowired
     private AccidentReportService accidentReportService;
 
+    @Autowired
+    private DeptService deptService;
     /**
      * 区级列表（信息上报：草稿，退回，快报退回）
      */
@@ -92,7 +100,15 @@ public class AccidentReportController {
         accidentReport.setUploadVoice(JSON.toJSONString(accidentReport.getUploadVoiceList()));
         accidentReport.setUploadFile(JSON.toJSONString(accidentReport.getUploadFileList()));
 
-        //
+        //处理抄送单位IDS
+        if(ArrayUtil.isNotEmpty(accidentReport.getCopyForUnitIdsList())){
+            accidentReport.setCopyForUnitIds(ArrayUtil.join(accidentReport.getCopyForUnitIdsList(),","));
+            List<DeptEntity> deptEntities = deptService.selectDeptListByIds(accidentReport.getCopyForUnitIdsList());
+            List<String> deptNames = deptEntities.stream().map(DeptEntity::getName).collect(Collectors.toList());
+            accidentReport.setCopyForUnit(String.join(",",deptNames));
+        }
+
+
         accidentReportService.save(accidentReport);
         //如果number为空,插入主键
         if(accidentReport.getNumber() == null || accidentReport.getNumber().isEmpty()){
@@ -107,6 +123,13 @@ public class AccidentReportController {
      */
     @PutMapping("/update")
     public R update(@RequestBody AccidentReportEntity accidentReport){
+        //处理抄送单位IDS
+        if(ArrayUtil.isNotEmpty(accidentReport.getCopyForUnitIdsList())){
+            accidentReport.setCopyForUnitIds(ArrayUtil.join(accidentReport.getCopyForUnitIdsList(),","));
+            List<DeptEntity> deptEntities = deptService.selectDeptListByIds(accidentReport.getCopyForUnitIdsList());
+            List<String> deptNames = deptEntities.stream().map(DeptEntity::getName).collect(Collectors.toList());
+            accidentReport.setCopyForUnit(String.join(",",deptNames));
+        }
 		accidentReportService.updateById(accidentReport);
         return R.ok();
     }

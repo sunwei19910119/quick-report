@@ -2,7 +2,10 @@ package com.xhtt.modules.dept.service.impl;
 
 import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -16,6 +19,9 @@ import com.xhtt.modules.dept.service.DeptService;
 @Service("deptService")
 public class DeptServiceImpl extends ServiceImpl<DeptDao, DeptEntity> implements DeptService {
 
+    @Autowired
+    DeptDao deptDao;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<DeptEntity> page = this.page(
@@ -24,6 +30,11 @@ public class DeptServiceImpl extends ServiceImpl<DeptDao, DeptEntity> implements
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<DeptEntity> selectDeptListByIds(Integer[] ids) {
+        return deptDao.selectDeptListByIds(ids);
     }
 
 }

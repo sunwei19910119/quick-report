@@ -216,6 +216,12 @@ public class EventReportEntity implements Serializable {
 	 */
 	private Date issueDate;
 
+	/**
+	 * 抄送部门ids
+	 */
+	@TableField(exist = false)
+	private Integer[] copyForUnitIdsList;
+
 	@TableField(exist = false)
 	private List<FileInfoModel> uploadImageList;
 

@@ -62,7 +62,7 @@
 
 
     <select id="reportList" resultMap="accidentReportMapSimple">
-        SELECT * from accident_report where is_delete=0 and `status` in (0,2,4)
+        SELECT * from accident_report where is_delete=0 and `status` in (0,1,2,4)
             <if test="ps.countyCode !=null and ps.countyCode!=''">
                 and `county_code` = #{ps.countyCode}
             </if>

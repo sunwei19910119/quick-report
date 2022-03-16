@@ -64,7 +64,7 @@
 
     <!-- 普通员工查看自己创建的列表-->
     <select id="reportList" resultMap="eventReportMapSimple">
-        SELECT * from event_report where is_delete=0 and `status` in (0,2,5)
+        SELECT * from event_report where is_delete=0 and `status` in (0,1,2,5)
         <if test="ps.countyCode !=null and ps.countyCode!=''">
             and `county_code` = #{ps.countyCode}
         </if>

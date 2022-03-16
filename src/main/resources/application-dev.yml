@@ -3,10 +3,10 @@ spring:
 #        type: com.alibaba.druid.pool.DruidDataSource
         hikari:
             driverClassName: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://192.168.1.200:3306/quick?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+            url: jdbc:mysql://117.88.41.38:3306/quick?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
 #            url: jdbc:mysql://192.168.1.222:3306/fxtb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
             username: root
-            password: 123456
+            password: Sunwei190711
 
 
 #多数据源的配置
@@ -24,5 +24,5 @@ dynamic:
         password: root
 
 #短信地址
-sms:
+sms:`
   url: http://106.15.58.109:9317/message/sendYdMess

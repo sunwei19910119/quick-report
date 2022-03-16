@@ -121,12 +121,6 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
     public R submit(int id,Integer status,String refuseReason) {
         int result = eventReportDao.submit(id,status,refuseReason);
         EventReportEntity eventReportInfo = this.getById(id);
-        //退回区级
-        if(status == 2){
-            if(eventReportInfo.getLevel() == 0 && eventReportInfo.getAccidentReportId() != 0 ){
-                this.accidentReportRefuse(eventReportInfo);
-            }
-        }
 
         if(status == 3){
             //签发同时发送短信

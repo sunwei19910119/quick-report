@@ -130,6 +130,14 @@ public class EventReportController {
             List<String> deptNames = deptEntities.stream().map(DeptEntity::getName).collect(Collectors.toList());
             eventReport.setCopyForUnit(String.join(",",deptNames));
         }
+
+        //退回区级
+        if(eventReport.getStatus() == 4){
+            if(eventReport.getLevel() == 0 && eventReport.getAccidentReportId() != 0 ){
+                eventReportService.accidentReportRefuse(eventReport);
+            }
+        }
+
 		eventReportService.updateById(eventReport);
         return R.ok();
     }

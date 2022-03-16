@@ -86,11 +86,11 @@ public class EventReportController {
     @PostMapping("/save")
     @Login
     public R save(@Valid @RequestBody EventReportEntity eventReport, @LoginUser SysUserEntity sysUser){
-        //续报必须上次的已经签发
+        //续报必须上次的已经上报（待签发）
         if(eventReport.getParentId() != null && eventReport.getParentId() != 0){
             EventReportEntity parentEntity = eventReportService.getById(eventReport.getParentId());
-            if(parentEntity.getStatus() != 3){
-                throw new RRException("首次上报签发通过后，才能进行续报");
+            if(parentEntity.getStatus() != 1){
+                throw new RRException("首次上报提交后，才能进行续报");
             }
         }
         eventReport.setUploadImage(JSON.toJSONString(eventReport.getUploadImageList()));

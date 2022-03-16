@@ -91,11 +91,11 @@ public class AccidentReportController {
     @PostMapping("/save")
     @Login
     public R save(@Valid @RequestBody AccidentReportEntity accidentReport, @LoginUser SysUserEntity sysUser){
-        //续报必须上次的已经签发
+        //续报必须上次的已经上报（待签发）
         if(accidentReport.getParentId() != null && accidentReport.getParentId() != 0){
             AccidentReportEntity parentEntity = accidentReportService.getById(accidentReport.getParentId());
-            if(parentEntity.getStatus() != 3){
-                throw new RRException("首次上报签发通过后，才能进行续报");
+            if(parentEntity.getStatus() != 1){
+                throw new RRException("首次上报提交后，才能进行续报");
             }
         }
         accidentReport.setUploadImage(JSON.toJSONString(accidentReport.getUploadImageList()));

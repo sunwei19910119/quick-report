@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.xhtt.modules.duty.dao.UserZbPowerDao">
+<mapper namespace="com.xhtt.modules.zb.dao.UserZbPowerDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.xhtt.modules.duty.entity.UserZbPowerEntity" id="userZbPowerMap">
+    <resultMap type="com.xhtt.modules.zb.entity.UserZbPowerEntity" id="userZbPowerMap">
         <result property="powerId" column="POWER_ID"/>
         <result property="userConnectId" column="USER_CONNECT_ID"/>
         <result property="zbryKey" column="ZBRY_KEY"/>
@@ -21,4 +21,7 @@
     </resultMap>
 
 
+    <select id="selectByUserConnectId" resultMap="userZbPowerMap">
+        select * from user_zb_power where USER_CONNECT_ID=#{userConnectId} and STATUS = 200
+    </select>
 </mapper>

@@ -76,9 +76,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     }
 
     @Override
-    public List<SysMenuEntity> tree(int level) {
+    public List<SysMenuEntity> tree(int level,int role) {
         List<SysMenuEntity> list;
-        List<SysMenuEntity> dbList = this.list(new QueryWrapper<SysMenuEntity>().eq(SysMenuEntity.LEVEL ,level));
+        List<SysMenuEntity> dbList = this.list(new QueryWrapper<SysMenuEntity>().eq(SysMenuEntity.LEVEL ,level).le(SysMenuEntity.ROLE,role));
         //获取一级的先
         list = dbList.stream().filter(sysMenuEntity -> sysMenuEntity.getParentId() == 0).collect(Collectors.toList());
         for (SysMenuEntity p : list) {

@@ -9,6 +9,8 @@ import com.xhtt.modules.sys.service.SsoLoginService;
 import com.xhtt.modules.sys.service.SysGovernmentInfoService;
 import com.xhtt.modules.sys.service.SysInterVersionService;
 import com.xhtt.modules.sys.service.SysUserService;
+import com.xhtt.modules.zb.entity.UserZbPowerEntity;
+import com.xhtt.modules.zb.service.UserZbPowerService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -50,6 +52,8 @@ public class SsoLoginServiceImpl implements SsoLoginService {
     @Resource
     private ThreadPoolTaskExecutor taskExecutor;
 
+    @Autowired
+    private UserZbPowerService userZbPowerService;
 
     @Override
     public SysUserEntity ssoLogin(String token) throws RRException {
@@ -170,6 +174,7 @@ public class SsoLoginServiceImpl implements SsoLoginService {
         if (userInfo.get("userConnectId") != null) {
             userConnectId = userInfo.get("userConnectId").toString();
         }
+
         SysUserEntity sysUser;
         synchronized (this) {
             sysUser = sysUserService.getUserName(sysUser2.getName(), orgId);
@@ -190,6 +195,14 @@ public class SsoLoginServiceImpl implements SsoLoginService {
             sysUser.setCitySysToken(token);
             sysUser.setNickName(sysUser2.getNickName());
             sysUser.setLastLoginDate(LocalDateTime.now());
+
+            sysUser.setRole(0);
+            //获取值班角色
+            UserZbPowerEntity userZbPowerEntity = userZbPowerService.selectByUserConnectId(userConnectId);
+            if(userZbPowerEntity.getZbldKey() == 1){
+                sysUser.setRole(1);
+            }
+
             sysUserService.saveOrUpdate(sysUser);
         }
         return sysUser;

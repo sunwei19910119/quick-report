@@ -1,6 +1,6 @@
-package com.xhtt.modules.duty.dao;
+package com.xhtt.modules.zb.dao;
 
-import com.xhtt.modules.duty.entity.UserZbPowerEntity;
+import com.xhtt.modules.zb.entity.UserZbPowerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,9 +9,10 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author chenshun
  * @email sunlightcs@gmail.com
- * @date 2022-03-08 10:24:07
+ * @date 2022-03-17 17:09:50
  */
 @Mapper
 public interface UserZbPowerDao extends BaseMapper<UserZbPowerEntity> {
-	
+
+    UserZbPowerEntity selectByUserConnectId(String userConnectId);
 }

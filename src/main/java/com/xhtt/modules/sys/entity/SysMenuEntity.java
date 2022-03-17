@@ -44,6 +44,7 @@ public class SysMenuEntity implements Serializable {
     public static final String MENUTYPE = "menu_type";
     public static final String TYPE = "type";
     public static final String LEVEL = "level";
+    public static final String ROLE = "role";
     /**
      * 菜单ID
      */
@@ -108,4 +109,6 @@ public class SysMenuEntity implements Serializable {
 
     @TableField(exist = false)
     private List<SysMenuEntity> children;
+
+    private String Role;
 }

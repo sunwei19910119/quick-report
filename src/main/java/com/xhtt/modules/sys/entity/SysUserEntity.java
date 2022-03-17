@@ -103,6 +103,8 @@ public class SysUserEntity {
 
     private String userConnectId;
 
+    private Integer role;
+
     /**
      * 部门代码
      */

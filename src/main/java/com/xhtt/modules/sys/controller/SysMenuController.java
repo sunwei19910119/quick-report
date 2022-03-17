@@ -58,7 +58,7 @@ public class SysMenuController  {
     @GetMapping("/tree")
     @Login
     public R tree(@LoginUser SysUserEntity sysUser) {
-        List<SysMenuEntity> list = sysMenuService.tree(sysUser.getLevel());
+        List<SysMenuEntity> list = sysMenuService.tree(sysUser.getLevel(),sysUser.getRole());
 
         return R.ok().put(Constant.DATA, list);
     }

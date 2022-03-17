@@ -1,4 +1,4 @@
-package com.xhtt.modules.duty.entity;
+package com.xhtt.modules.zb.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,56 +8,52 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 值班人员信息详情
+ * 用户值班权限信息表
  * 
  * @author chenshun
  * @email sunlightcs@gmail.com
- * @date 2022-03-08 10:24:06
+ * @date 2022-03-17 17:09:50
  */
 @Data
-@TableName("zbxx_info")
-public class ZbxxInfoEntity implements Serializable {
+@TableName("user_zb_power")
+public class UserZbPowerEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 值班信息ID
+	 * 主键ID
 	 */
 	@TableId
-	private Long zbxxId;
+	private Integer powerId;
 	/**
-	 * 值班人员姓名
-	 */
-	private String zbryName;
-	/**
-	 * 用户关联统一登录ID
+	 * 用户关联统一登录CONNECT_ID
 	 */
 	private String userConnectId;
 	/**
-	 * 值班单位ID
+	 * 是否是值班人员
 	 */
-	private String zbdwId;
+	private Integer zbryKey;
 	/**
-	 * 人员类型
+	 * 是否是排班管理人员
 	 */
-	private Integer ryLx;
+	private Integer pbryKey;
 	/**
-	 * 值班类型
+	 * 是否是值班领导
 	 */
-	private Integer zblx;
+	private Integer zbldKey;
 	/**
-	 * 值班开始时间
+	 * 是否是值班司机
 	 */
-	private Date zbKssj;
+	private Integer zbsjKey;
 	/**
-	 * 值班结束时间
+	 * 是否是值班技术
 	 */
-	private Date zbJssj;
+	private Integer zbjsKey;
 	/**
-	 * 是否短信开启
+	 * 是否是值班长
 	 */
-	private Integer messKey;
+	private Integer zbzKey;
 	/**
-	 * 状态
+	 * 状态(正常200 删除-100)
 	 */
 	private Integer status;
 	/**
@@ -76,9 +72,5 @@ public class ZbxxInfoEntity implements Serializable {
 	 * 最后修改人
 	 */
 	private String lastUpdatedBy;
-	/**
-	 * 是否推送至省厅
-	 */
-	private Integer isUpload;
 
 }

@@ -58,7 +58,7 @@ public interface SysMenuService extends IService<SysMenuEntity> {
      */
     void delete(Integer menuId);
 
-    List<SysMenuEntity> tree(int level);
+    List<SysMenuEntity> tree(int level,int role);
 
     /**
      * 获取所有子菜单id集合

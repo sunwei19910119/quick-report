@@ -16,7 +16,9 @@
         <foreach collection="array" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
-
     </select>
 
+    <select id="selectDeptList" resultMap="deptMap" parameterType="Integer">
+        SELECT * from dept where level = #{level}
+    </select>
 </mapper>

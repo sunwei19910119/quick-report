@@ -16,5 +16,7 @@ import java.util.List;
 @Mapper
 public interface DeptDao extends BaseMapper<DeptEntity> {
 
+    List<DeptEntity> selectDeptList(Integer level);
+
     List<DeptEntity> selectDeptListByIds(String[] ids);
 }

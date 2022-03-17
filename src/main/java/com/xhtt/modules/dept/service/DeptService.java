@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public interface DeptService extends IService<DeptEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    List<DeptEntity> selectDeptList(Integer level);
 
     List<DeptEntity> selectDeptListByIds(String[] ids);
 }

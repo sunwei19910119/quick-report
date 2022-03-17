@@ -23,13 +23,8 @@ public class DeptServiceImpl extends ServiceImpl<DeptDao, DeptEntity> implements
     DeptDao deptDao;
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<DeptEntity> page = this.page(
-                new Query<DeptEntity>(params).getPage(),
-                new QueryWrapper<DeptEntity>()
-        );
-
-        return new PageUtils(page);
+    public List<DeptEntity> selectDeptList(Integer level) {
+        return deptDao.selectDeptList(level);
     }
 
     @Override

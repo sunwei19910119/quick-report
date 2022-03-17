@@ -1,6 +1,8 @@
 package com.xhtt.modules.dept.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.xhtt.common.utils.PageUtils;
@@ -35,10 +37,11 @@ public class DeptController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = deptService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public R list(@RequestParam Integer level){
+        List<DeptEntity> list = deptService.selectDeptList(level);
+        HashMap data = new HashMap<>();
+        data.put("list",list);
+        return R.ok().put("data",data);
     }
 
 

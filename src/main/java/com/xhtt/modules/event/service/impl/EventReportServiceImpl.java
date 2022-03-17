@@ -66,18 +66,19 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
 
     @Override
     public PageUtils reportList(Map<String, Object> params,SysUserEntity sysUser) {
-        List<String> userConnectIds = new ArrayList<>();
+//        List<String> userConnectIds = new ArrayList<>();
         //普通用户仅可查看自己创建的，部门领导可以查看所在部门所有
         //判断当前用户是否为处室负责人，或者分管领导
-        boolean isManager = baseManageUserlevelService.isManager(sysUser.getBmdm(),sysUser.getUserConnectId());
-        if(isManager == false){
-            userConnectIds.add(sysUser.getUserConnectId());
-        }else{
-            //领导查询所在部门的所有人员id
-            List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByBmdm(sysUser.getBmdm());
-            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
-        }
-        params.put("list",userConnectIds);
+//        boolean isManager = baseManageUserlevelService.isManager(sysUser.getBmdm(),sysUser.getUserConnectId());
+//        if(isManager == false){
+//            userConnectIds.add(sysUser.getUserConnectId());
+//        }else{
+//            //领导查询所在部门的所有人员id
+//            List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByBmdm(sysUser.getBmdm());
+//            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
+//        }
+//        userConnectIds.add(sysUser.getUserConnectId());
+        params.put("userId",sysUser.getUserConnectId());
         Page<EventReportSimpleVo> page = new Query<EventReportSimpleVo>(params).getPage();
         List<EventReportSimpleVo> list = baseMapper.reportList(page, params);
         list.forEach(this::convertCounty);
@@ -88,18 +89,19 @@ public class EventReportServiceImpl extends ServiceImpl<EventReportDao, EventRep
 
     @Override
     public PageUtils signList(Map<String, Object> params,SysUserEntity sysUser) {
-        List<String> userConnectIds = new ArrayList<>();
+//        List<String> userConnectIds = new ArrayList<>();
         //普通用户仅可查看自己创建的，部门领导可以查看所在部门所有
         //判断当前用户是否为处室负责人，或者分管领导
-        boolean isManager = baseManageUserlevelService.isManager(sysUser.getBmdm(),sysUser.getUserConnectId());
-        if(isManager == false){
-            userConnectIds.add(sysUser.getUserConnectId());
-        }else{
-            //领导查询所在部门的所有人员id
-            List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByBmdm(sysUser.getBmdm());
-            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
-        }
-        params.put("list",userConnectIds);
+//        boolean isManager = baseManageUserlevelService.isManager(sysUser.getBmdm(),sysUser.getUserConnectId());
+//        if(isManager == false){
+//            userConnectIds.add(sysUser.getUserConnectId());
+//        }else{
+//            //领导查询所在部门的所有人员id
+//            List<CzBaseZfyhjbxxEntity> baseZfyhjbxxEntities = baseZfyhjbxxService.selectListByBmdm(sysUser.getBmdm());
+//            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
+//        }
+//        userConnectIds.add(sysUser.getUserConnectId());
+        params.put("userId",sysUser.getUserConnectId());
         Page<EventReportSimpleVo> page = new Query<EventReportSimpleVo>(params).getPage();
         List<EventReportSimpleVo> list = baseMapper.signList(page, params);
         list.forEach(this::convertCounty);

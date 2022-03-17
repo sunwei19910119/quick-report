@@ -17,6 +17,7 @@ import com.xhtt.core.annotation.LoginUser;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.dept.entity.DeptEntity;
 import com.xhtt.modules.dept.service.DeptService;
+import com.xhtt.modules.event.dao.EventReportDao;
 import com.xhtt.modules.sys.entity.SysUserEntity;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -43,7 +44,8 @@ import javax.validation.Valid;
 public class EventReportController {
     @Autowired
     private EventReportService eventReportService;
-
+    @Autowired
+    private EventReportDao eventReportDao;
     @Autowired
     private DeptService deptService;
     /**
@@ -108,6 +110,10 @@ public class EventReportController {
         }
         //记录创建者市平台ID
         eventReport.setCreateUserConnectId(sysUser.getUserConnectId());
+        //校验number重复
+        if(eventReportDao.checkNumber(eventReport.getNumber()) > 0){
+            return R.error("编号不能重复");
+        }
         eventReportService.save(eventReport);
         //如果number为空,插入主键
 //        if(eventReport.getNumber() == null || eventReport.getNumber().isEmpty()){
@@ -123,6 +129,11 @@ public class EventReportController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody EventReportEntity eventReport){
+        //校验number重复
+        if(eventReportDao.checkNumberExcept(eventReport.getNumber(),eventReport.getId()) > 0){
+            return R.error("编号不能重复");
+        }
+
         //处理抄送单位IDS
         if(ArrayUtil.isNotEmpty(eventReport.getCopyForUnitIdsList())){
             eventReport.setCopyForUnitIds(ArrayUtil.join(eventReport.getCopyForUnitIdsList(),","));

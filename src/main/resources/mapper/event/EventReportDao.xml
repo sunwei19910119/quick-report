@@ -138,6 +138,10 @@
         select count(*) from event_report where `number`=#{number} and is_delete=0
     </select>
 
+    <select id="checkNumberExcept" resultType="int">
+        select count(*) from event_report where `number`=#{number} and is_delete=0 and id != #{id}
+    </select>
+
     <select id="maxNumber" resultType="string">
         select `number` from event_report where is_delete=0 order by CONVERT(`number`,SIGNED) desc limit 1;
     </select>

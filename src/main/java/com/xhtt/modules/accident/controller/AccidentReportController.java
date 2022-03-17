@@ -17,6 +17,7 @@ import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.R;
 import com.xhtt.core.annotation.Login;
 import com.xhtt.core.annotation.LoginUser;
+import com.xhtt.modules.accident.dao.AccidentReportDao;
 import com.xhtt.modules.dept.entity.DeptEntity;
 import com.xhtt.modules.dept.service.DeptService;
 import com.xhtt.modules.event.entity.EventReportEntity;
@@ -49,7 +50,8 @@ import javax.validation.Valid;
 public class AccidentReportController {
     @Autowired
     private AccidentReportService accidentReportService;
-
+    @Autowired
+    private AccidentReportDao accidentReportDao;
     @Autowired
     private DeptService deptService;
     /**
@@ -112,6 +114,10 @@ public class AccidentReportController {
         }
         //记录创建者市平台ID
         accidentReport.setCreateUserConnectId(sysUser.getUserConnectId());
+        //校验number重复
+        if(accidentReportDao.checkNumber(accidentReport.getNumber()) > 0){
+            return R.error("编号不能重复");
+        }
         accidentReportService.save(accidentReport);
         //如果number为空,插入主键
 //        if(accidentReport.getNumber() == null || accidentReport.getNumber().isEmpty()){
@@ -132,6 +138,10 @@ public class AccidentReportController {
             List<DeptEntity> deptEntities = deptService.selectDeptListByIds(accidentReport.getCopyForUnitIdsList());
             List<String> deptNames = deptEntities.stream().map(DeptEntity::getName).collect(Collectors.toList());
             accidentReport.setCopyForUnit(String.join(",",deptNames));
+        }
+        //校验number重复
+        if(accidentReportDao.checkNumberExcept(accidentReport.getNumber(),accidentReport.getId()) > 0){
+            return R.error("编号不能重复");
         }
 		accidentReportService.updateById(accidentReport);
         return R.ok();

@@ -160,6 +160,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
         map.put("copyForUnit", accidentReportEntity.getCopyForUnit());
         map.put("receiveWay", accidentReportEntity.getReceiveWay());
         map.put("issueDate", DateUtils.format(accidentReportEntity.getIssueDate(), DateUtils.DATE_TIME_PATTERN));
+        map.put("title", accidentReportEntity.getTitle());
 
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/msword");

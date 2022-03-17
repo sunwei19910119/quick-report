@@ -55,6 +55,6 @@ public class ThirdPartInfoMode implements Serializable {
     Integer employeesNum;
     String bmdm;
     ThirdPartInfoMode companyInfo;
-
+    String areaId;
 
 }

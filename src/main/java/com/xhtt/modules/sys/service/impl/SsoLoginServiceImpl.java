@@ -100,15 +100,23 @@ public class SsoLoginServiceImpl implements SsoLoginService {
                                 sysGovernmentInfo.setMarketCode("3204");
                                 if (StringUtils.isNotEmpty(govInfo.getSzqx())) {
                                     if (govInfo.getSzqx().length() == 4) {
-                                        //市
-                                        level = 1;
+
                                         sysGovernmentInfo.setMarketCode(govInfo.getSzqx());
                                     } else {
-                                        //区
-                                        level = 0;
+
                                         sysGovernmentInfo.setCountyCode(govInfo.getSzqx());
                                     }
                                 }
+
+                                //判断人员级别
+                                if (StringUtils.isNotEmpty(govInfo.getAreaId()) && govInfo.getAreaId().length() == 4) {
+                                    //市级
+                                    level = 1;
+                                }else{
+                                    //区或镇
+                                    level = 0;
+                                }
+
                                 if(StringUtils.isNotEmpty(govInfo.getSzxz())){
                                     sysGovernmentInfo.setTownCode(govInfo.getSzxz());
                                 }

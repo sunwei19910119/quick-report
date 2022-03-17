@@ -37,6 +37,7 @@
 		<fastjson.version>1.2.47</fastjson.version>
 		<hutool.version>5.3.9</hutool.version>
 		<org.apache.poi>3.9</org.apache.poi>
+		<lombok.version>1.18.22</lombok.version>
 		<mapstruct.version>1.4.2.Final</mapstruct.version>
 		<!--wagon plugin 配置 自动部署到linux远程服务器-->
 		<service-path>/work/renren</service-path>
@@ -287,6 +288,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
 		</dependency>
 
 		<dependency>
@@ -539,10 +541,29 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
-					<compilerArguments>
-						<!--<verbose />-->
-						<bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
-					</compilerArguments>
+<!--					<compilerArguments>-->
+<!--						&lt;!&ndash;<verbose />&ndash;&gt;-->
+<!--						<bootclasspath>${java.home}/lib/rt.jar</bootclasspath>-->
+<!--					</compilerArguments>-->
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+						<!-- This is needed when using Lombok 1.18.16 and above -->
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok-mapstruct-binding</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+						<!-- Mapstruct should follow the lombok path(s) -->
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${mapstruct.version}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 		</plugins>

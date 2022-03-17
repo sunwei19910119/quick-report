@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -36,5 +38,7 @@ public class EventTypeEntity implements Serializable {
 	 * 
 	 */
 	private Integer parentId;
+
+	private List<EventTypeEntity> children;
 
 }

@@ -26,11 +26,10 @@ public class EventTypeServiceImpl extends ServiceImpl<EventTypeDao, EventTypeEnt
     EventTypeDao eventTypeDao;
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        Page<EventTypeEntity> page = new Query<EventTypeEntity>(params).getPage();
-        List<EventTypeEntity> list = baseMapper.queryPage(page, params);
-        page.setRecords(list);
-        return new PageUtils(page);
+    public List<EventTypeEntity> selectAll() {
+        List<EventTypeEntity> list = eventTypeDao.selectAll();
+
+        return list;
     }
 
 }

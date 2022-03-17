@@ -19,6 +19,6 @@ import java.util.Map;
  */
 @Mapper
 public interface EventTypeDao extends BaseMapper<EventTypeEntity> {
-    List<EventTypeEntity> queryPage(Page<EventTypeEntity> page, @Param("ps") Map<String, Object> params);
+    List<EventTypeEntity> selectAll();
 
 }

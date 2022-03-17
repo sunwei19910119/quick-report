@@ -1,10 +1,16 @@
 package com.xhtt.modules.eventType.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.xhtt.common.utils.PageUtils;
 import com.xhtt.common.utils.R;
+import com.xhtt.common.utils.RedisUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,15 +37,26 @@ import com.xhtt.modules.eventType.service.EventTypeService;
 public class EventTypeController {
     @Autowired
     private EventTypeService eventTypeService;
+    @Autowired
+    RedisUtils redisUtils;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = eventTypeService.queryPage(params);
+    public R list(){
+        List result = redisUtils.get("event_type_list", ArrayList.class);
 
-        return R.ok().put("page", page);
+        if(CollUtil.isNotEmpty(result)){
+            return R.ok().put("list", result);
+        }
+
+        List<EventTypeEntity> list = eventTypeService.selectAll();
+        redisUtils.set("event_type_list",list,redisUtils.DEFAULT_EXPIRE);
+
+        return R.ok().put("list", list);
+
+
     }
 
 

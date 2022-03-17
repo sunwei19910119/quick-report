@@ -3,7 +3,6 @@
 
 <mapper namespace="com.xhtt.modules.eventType.dao.EventTypeDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.xhtt.modules.eventType.entity.EventTypeEntity" id="eventTypeMap">
         <result property="id" column="id"/>
         <result property="level" column="level"/>
@@ -11,14 +10,20 @@
         <result property="parentId" column="parent_id"/>
     </resultMap>
 
-    <select id="queryPage" resultMap="eventTypeMap">
-        SELECT * from event_type where 1=1
-        <if test="ps.level !=null and ps.level!=''">
-            and `level` = #{ps.level}
-        </if>
-        <if test="ps.parent_id !=null and ps.parent_id!=''">
-            and `parent_id` = #{ps.parent_id}
-        </if>
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.xhtt.modules.eventType.entity.EventTypeEntity" id="childrenMap">
+        <result property="id" column="id"/>
+        <result property="level" column="level"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <collection property="children" ofType="EventTypeEntity" select="selectChildrenByPid" column="id"/>
+    </resultMap>
 
+    <select id="selectChildrenByPid" resultMap="eventTypeMap">
+        SELECT * from event_type where parent_id=#{id}
+    </select>
+
+    <select id="selectAll" resultMap="childrenMap">
+        SELECT * from event_type where parent_id=0
     </select>
 </mapper>

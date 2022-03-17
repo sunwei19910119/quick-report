@@ -45,14 +45,14 @@ public class EventTypeController {
      */
     @RequestMapping("/list")
     public R list(){
-        List result = redisUtils.get("event_type_list", ArrayList.class);
+//        List result = redisUtils.get("event_type_list", ArrayList.class);
 
-        if(CollUtil.isNotEmpty(result)){
-            return R.ok().put("list", result);
-        }
+//        if(CollUtil.isNotEmpty(result)){
+//            return R.ok().put("list", result);
+//        }
 
         List<EventTypeEntity> list = eventTypeService.selectAll();
-        redisUtils.set("event_type_list",list,redisUtils.DEFAULT_EXPIRE);
+//        redisUtils.set("event_type_list",list,redisUtils.DEFAULT_EXPIRE);
 
         return R.ok().put("list", list);
 

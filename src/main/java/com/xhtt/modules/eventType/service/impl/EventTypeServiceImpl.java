@@ -32,4 +32,9 @@ public class EventTypeServiceImpl extends ServiceImpl<EventTypeDao, EventTypeEnt
         return list;
     }
 
+    @Override
+    public EventTypeEntity getById(Integer id) {
+        return eventTypeDao.getById(id);
+    }
+
 }

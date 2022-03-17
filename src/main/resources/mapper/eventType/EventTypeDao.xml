@@ -26,4 +26,8 @@
     <select id="selectAll" resultMap="childrenMap">
         SELECT * from event_type where parent_id=0
     </select>
+
+    <select id="getById" resultMap="eventTypeMap">
+        SELECT * from event_type where id=#{id}
+    </select>
 </mapper>

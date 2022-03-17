@@ -17,5 +17,7 @@ import java.util.Map;
 public interface EventTypeService extends IService<EventTypeEntity> {
 
     List<EventTypeEntity> selectAll();
+
+    EventTypeEntity getById(Integer id);
 }
 

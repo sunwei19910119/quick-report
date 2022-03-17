@@ -21,4 +21,6 @@ import java.util.Map;
 public interface EventTypeDao extends BaseMapper<EventTypeEntity> {
     List<EventTypeEntity> selectAll();
 
+    EventTypeEntity getById(Integer id);
+
 }

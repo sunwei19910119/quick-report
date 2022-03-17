@@ -31,4 +31,7 @@ public interface AccidentReportDao extends BaseMapper<AccidentReportEntity> {
     int submit(int id,Integer status,String refuseReason);
 
     int checkNumber(String number);
+
+    String maxNumber();
+
 }

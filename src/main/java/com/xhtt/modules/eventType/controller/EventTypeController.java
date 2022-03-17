@@ -83,24 +83,5 @@ public class EventTypeController {
         return R.ok();
     }
 
-    /**
-     * 修改
-     */
-    @RequestMapping("/update")
-    public R update(@RequestBody EventTypeEntity eventType){
-		eventTypeService.updateById(eventType);
-
-        return R.ok();
-    }
-
-    /**
-     * 删除
-     */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Integer[] ids){
-		eventTypeService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
-    }
 
 }

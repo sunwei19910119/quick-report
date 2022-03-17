@@ -201,6 +201,13 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     @Override
     public R checkNumber(String number) {
         int count = accidentReportDao.checkNumber(number);
-        return count == 0 ? R.ok() : R.error("编号不能重复");
+        String maxNumber = accidentReportDao.maxNumber();
+        HashMap data = new HashMap<>();
+        HashMap result = new HashMap<>();
+        data.put("isRepeat",count);
+        data.put("maxNumber",maxNumber);
+
+        result.put("data",data);
+        return R.ok(result);
     }
 }

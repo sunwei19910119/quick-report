@@ -199,6 +199,9 @@ public class SsoLoginServiceImpl implements SsoLoginService {
             sysUser.setRole(0);
             //获取值班角色
             UserZbPowerEntity userZbPowerEntity = userZbPowerService.selectByUserConnectId(userConnectId);
+            if(userZbPowerEntity == null){
+                throw new RRException(String.format("获取值班信息失败"));
+            }
             if(userZbPowerEntity.getZbldKey() == 1){
                 sysUser.setRole(1);
             }

@@ -13,6 +13,16 @@
         <result property="orderNum" column="ORDER_NUM"/>
     </resultMap>
 
+    <resultMap type="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity" id="cfgBaseRegionChildren">
+        <result property="regionCode" column="REGION_CODE"/>
+        <result property="parentCode" column="PARENT_CODE"/>
+        <result property="name" column="NAME"/>
+        <result property="type" column="TYPE"/>
+        <result property="level" column="LEVEL"/>
+        <result property="orderNum" column="ORDER_NUM"/>
+        <collection property="children" ofType="CfgBaseRegionEntity" select="selectChildrenByPid" column="REGION_CODE"/>
+    </resultMap>
+
     <select id="getXzqyCityList" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
         select * from (
         <if test="ps.parentCode !=null and ps.parentCode != '' and ps.parentCode=='3204'">
@@ -52,20 +62,21 @@
        select * from czyj_base.cz_base_region where PARENT_CODE=#{parentCode} order by ORDER_NUM
     </select>
 
-    <select id="getXzqyAll" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
-        select * from czyj_base.cz_base_region
-        <where>
-            <if test="ps.regionCode !=null and ps.regionCode != ''">
-                and REGION_CODE = #{ps.regionCode}
-            </if>
-        </where>
+    <select id="getXzqyAll" resultMap="cfgBaseRegionChildren">
+        select * from czyj_base.cz_base_region where PARENT_CODE='3204'
     </select>
 
+    <select id="selectChildrenByPid" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
+        SELECT * from cz_base_region where PARENT_CODE=#{REGION_CODE}
+    </select>
 
     <select id="getXzqyByType" resultType="com.xhtt.modules.cfg.entity.CfgBaseRegionEntity">
         select * from czyj_base.cz_base_region
         <where>
            TYPE = #{type}
+            <if test="parentCode !=null and parentCode != ''">
+               and PARENT_CODE = #{parentCode}
+            </if>
         </where>
     </select>
 

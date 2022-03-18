@@ -51,8 +51,7 @@ public class CfgBaseRegionServiceImpl extends ServiceImpl<CfgBaseRegionDao, CfgB
     @Override
     @DataSource(value = "slave1")
     public List<CfgBaseRegionEntity> getXzqyAll() {
-        Map<String, Object> params = new HashMap<>();
-        List<CfgBaseRegionEntity> cfgBaseRegionList = baseMapper.getXzqyAll(params);
+        List<CfgBaseRegionEntity> cfgBaseRegionList = baseMapper.getXzqyAll();
         return cfgBaseRegionList;
     }
 
@@ -68,8 +67,8 @@ public class CfgBaseRegionServiceImpl extends ServiceImpl<CfgBaseRegionDao, CfgB
 
     @Override
     @DataSource(value = "slave1")
-    public List<CfgBaseRegionEntity> getXzqyByType(String type){
-        List<CfgBaseRegionEntity> cfgBaseRegionList = baseMapper.getXzqyByType(type);
+    public List<CfgBaseRegionEntity> getXzqyByType(String type,String parentCode){
+        List<CfgBaseRegionEntity> cfgBaseRegionList = baseMapper.getXzqyByType(type,parentCode);
         return cfgBaseRegionList;
     }
 

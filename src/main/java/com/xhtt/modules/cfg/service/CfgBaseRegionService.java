@@ -23,7 +23,7 @@ public interface CfgBaseRegionService extends IService<CfgBaseRegionEntity> {
 
     List<CfgBaseRegionEntity> getXzqyAll();
 
-    List<CfgBaseRegionEntity> getXzqyByType(String type);
+    List<CfgBaseRegionEntity> getXzqyByType(String type,String parentCode);
 
     List<CfgBaseRegionEntity> getXzqyCountAndTown();
 }

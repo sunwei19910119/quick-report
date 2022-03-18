@@ -21,9 +21,9 @@ public interface CfgBaseRegionDao extends BaseMapper<CfgBaseRegionEntity> {
 
     List<CfgBaseRegionEntity> getXzqyList(String parentCode);
 
-    List<CfgBaseRegionEntity> getXzqyAll(@Param(value = "ps") Map<String, Object> params);
+    List<CfgBaseRegionEntity> getXzqyAll();
 
-    List<CfgBaseRegionEntity> getXzqyByType(String type);
+    List<CfgBaseRegionEntity> getXzqyByType(String type,String parentCode);
 
     List<CfgBaseRegionEntity> getXzqyCountAndTown();
 }

@@ -23,9 +23,13 @@ public class CfgRegionController {
     CfgBaseRegionService cfgBaseRegionService;
 
     @GetMapping("/list")
-    public List<CfgBaseRegionEntity> list(@RequestParam String type){
-        return cfgBaseRegionService.getXzqyByType(type);
+    public List<CfgBaseRegionEntity> list(@RequestParam String type,@RequestParam String parentCode){
+        return cfgBaseRegionService.getXzqyByType(type,parentCode);
     }
 
+    @GetMapping("/listAll")
+    public List<CfgBaseRegionEntity> listAll(){
+        return cfgBaseRegionService.getXzqyAll();
+    }
 }
 

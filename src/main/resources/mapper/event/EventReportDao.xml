@@ -83,6 +83,9 @@
         <if test="ps.accidentTimeEnd !=null and ps.accidentTimeEnd !=''">
             and accident_time <![CDATA[<]]> #{ps.accidentTimeEnd}
         </if>
+        <if test="ps.level !=null and ps.level !=''">
+            and `level` = #{ps.level}
+        </if>
         and  ((create_user_connect_id = #{ps.userId} and `status` =  0) or (`status` != 0))
         order by accident_time desc
     </select>
@@ -107,6 +110,9 @@
         </if>
         <if test="ps.accidentTimeEnd !=null and ps.accidentTimeEnd !=''">
             and accident_time <![CDATA[<]]> #{ps.accidentTimeEnd}
+        </if>
+        <if test="ps.level !=null and ps.level !=''">
+            and `level` = #{ps.level}
         </if>
         and  ((create_user_connect_id = #{ps.userId} and `status` =  0) or (`status` != 0))
         order by accident_time desc

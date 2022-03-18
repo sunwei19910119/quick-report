@@ -133,7 +133,10 @@ public class EventReportController {
         if(eventReportDao.checkNumberExcept(eventReport.getNumber(),eventReport.getId()) > 0){
             return R.error("编号不能重复");
         }
-
+        eventReport.setUploadImage(JSON.toJSONString(eventReport.getUploadImageList()));
+        eventReport.setUploadVideo(JSON.toJSONString(eventReport.getUploadVideoList()));
+        eventReport.setUploadVoice(JSON.toJSONString(eventReport.getUploadVoiceList()));
+        eventReport.setUploadFile(JSON.toJSONString(eventReport.getUploadFileList()));
         //处理抄送单位IDS
         if(ArrayUtil.isNotEmpty(eventReport.getCopyForUnitIdsList())){
             eventReport.setCopyForUnitIds(ArrayUtil.join(eventReport.getCopyForUnitIdsList(),","));

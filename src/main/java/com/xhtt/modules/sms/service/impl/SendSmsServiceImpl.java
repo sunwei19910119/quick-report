@@ -75,9 +75,10 @@ public class SendSmsServiceImpl implements ISendSmsService {
 
           String copyForUnitIds = accidentReportEntity.getCopyForUnitIds();
           String mobiles = getMobiles(copyForUnitIds);
+          System.out.println(mobiles);
 
-          SmsMessage smsMessage = new SmsMessage(0,message,"18551098833","",9,"NORMAL");
-//          this.sendSms(smsMessage);
+          SmsMessage smsMessage = new SmsMessage(0,message,"15861183327","",9,"NORMAL");
+          this.sendSms(smsMessage);
      }
 
 
@@ -102,9 +103,10 @@ public class SendSmsServiceImpl implements ISendSmsService {
 
           String copyForUnitIds = eventReportEntity.getCopyForUnitIds();
           String mobiles = getMobiles(copyForUnitIds);
+          System.out.println(mobiles);
 
-          SmsMessage smsMessage = new SmsMessage(0,message,"18551098833","",9,"NORMAL");
-//          this.sendSms(smsMessage);
+          SmsMessage smsMessage = new SmsMessage(0,message,"15861183327","",9,"NORMAL");
+          this.sendSms(smsMessage);
      }
 
 

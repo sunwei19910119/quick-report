@@ -3,7 +3,7 @@ spring:
 #        type: com.alibaba.druid.pool.DruidDataSource
         hikari:
             driverClassName: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://192.168.209.179:3306/fxtb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+            url: jdbc:mysql://192.168.209.179:3306/quick_report?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
             username: fxtb
             password: fxtb2021!@#
 
@@ -17,17 +17,7 @@ dynamic:
             password: fxtb2021!@#
       slave2:
             driverClassName: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://192.168.209.181:3306/sjzl?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-            username: fxtb
-            password: fxtb2021!@#
-      slave3:
-            driverClassName: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://192.168.209.181:3306/czyj_base?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-            username: fxtb
-            password: fxtb2021!@#
-      slave4:
-            driverClassName: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://192.168.209.181:3306/fxtb_ztgt?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+            url: jdbc:mysql://192.168.209.179:3306/czyj_zbzs?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
             username: fxtb
             password: fxtb2021!@#
 #短信地址

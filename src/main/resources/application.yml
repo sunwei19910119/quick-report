@@ -101,7 +101,7 @@ renren:
     expire: 60480000
     header: token
   file:
-    path: d:/uploadPath/
+    path: d:/files/
   #path: /root/trainbdb/fxtb/files/
 logging:
   config: classpath:logback-spring.xml

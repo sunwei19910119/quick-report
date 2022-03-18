@@ -132,16 +132,21 @@ public class AccidentReportController {
      */
     @PutMapping("/update")
     public R update(@RequestBody AccidentReportEntity accidentReport){
+        //校验number重复
+        if(accidentReportDao.checkNumberExcept(accidentReport.getNumber(),accidentReport.getId()) > 0){
+            return R.error("编号不能重复");
+        }
+        accidentReport.setUploadImage(JSON.toJSONString(accidentReport.getUploadImageList()));
+        accidentReport.setUploadVideo(JSON.toJSONString(accidentReport.getUploadVideoList()));
+        accidentReport.setUploadVoice(JSON.toJSONString(accidentReport.getUploadVoiceList()));
+        accidentReport.setUploadFile(JSON.toJSONString(accidentReport.getUploadFileList()));
+
         //处理抄送单位IDS
         if(ArrayUtil.isNotEmpty(accidentReport.getCopyForUnitIdsList())){
             accidentReport.setCopyForUnitIds(ArrayUtil.join(accidentReport.getCopyForUnitIdsList(),","));
             List<DeptEntity> deptEntities = deptService.selectDeptListByIds(accidentReport.getCopyForUnitIdsList());
             List<String> deptNames = deptEntities.stream().map(DeptEntity::getName).collect(Collectors.toList());
             accidentReport.setCopyForUnit(String.join(",",deptNames));
-        }
-        //校验number重复
-        if(accidentReportDao.checkNumberExcept(accidentReport.getNumber(),accidentReport.getId()) > 0){
-            return R.error("编号不能重复");
         }
 		accidentReportService.updateById(accidentReport);
         return R.ok();

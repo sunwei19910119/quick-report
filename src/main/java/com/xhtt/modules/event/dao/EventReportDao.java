@@ -33,5 +33,6 @@ public interface EventReportDao extends BaseMapper<EventReportEntity> {
     int checkNumber(String number);
 
     int checkNumberExcept(String number,Integer id);
+
     String maxNumber();
 }

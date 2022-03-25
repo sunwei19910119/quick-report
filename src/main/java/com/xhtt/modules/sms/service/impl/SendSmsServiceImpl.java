@@ -56,7 +56,10 @@ public class SendSmsServiceImpl implements ISendSmsService {
 
      @Override
      public void sendAccidentReportSms(AccidentReportEntity accidentReportEntity) {
-          String template = "【突发事件信息】\n" +
+          String copyForUnitIds = accidentReportEntity.getCopyForUnitIds();
+          String mobiles = getMobiles(copyForUnitIds);
+
+          String template = "（突发事件信息）\n" +
                   "${accidentTime}，${countyName}${accidentSite},${companyName}，${accidentDescription}。\n" +
                   "(${receiveWay}\n" +
                   "${issueDate}书面报）";
@@ -73,9 +76,6 @@ public class SendSmsServiceImpl implements ISendSmsService {
           StrSubstitutor strSubstitutor = new StrSubstitutor(map);
           String message = strSubstitutor.replace(template);
 
-          String copyForUnitIds = accidentReportEntity.getCopyForUnitIds();
-          String mobiles = getMobiles(copyForUnitIds);
-          System.out.println(mobiles);
 
           SmsMessage smsMessage = new SmsMessage(0,message,"15861183327","",9,"NORMAL");
           this.sendSms(smsMessage);
@@ -84,7 +84,10 @@ public class SendSmsServiceImpl implements ISendSmsService {
 
      @Override
      public void sendEventReportSms(EventReportEntity eventReportEntity) {
-          String template = "【突发事件信息】\n" +
+          String copyForUnitIds = eventReportEntity.getCopyForUnitIds();
+          String mobiles = getMobiles(copyForUnitIds);
+
+          String template = "（突发事件信息）\n" +
                   "${accidentTime}，${countyName}${accidentSite},${companyName}，${accidentDescription}。\n" +
                   "(${receiveWay}\n" +
                   "${issueDate}书面报）";
@@ -101,9 +104,7 @@ public class SendSmsServiceImpl implements ISendSmsService {
           StrSubstitutor strSubstitutor = new StrSubstitutor(map);
           String message = strSubstitutor.replace(template);
 
-          String copyForUnitIds = eventReportEntity.getCopyForUnitIds();
-          String mobiles = getMobiles(copyForUnitIds);
-          System.out.println(mobiles);
+
 
           SmsMessage smsMessage = new SmsMessage(0,message,"15861183327","",9,"NORMAL");
           this.sendSms(smsMessage);

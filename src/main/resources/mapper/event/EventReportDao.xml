@@ -12,6 +12,8 @@
         <result property="countyCode" column="county_code"/>
         <result property="createBy" column="create_by"/>
         <result property="status" column="status"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="eventLevel" column="event_level"/>
     </resultMap>
 
 	<!-- 可根据自己的需求，是否要使用 -->
@@ -135,14 +137,16 @@
 
 
     <select id="checkNumber" resultType="int">
-        select count(*) from event_report where `number`=#{number} and is_delete=0
+        select count(*) from event_report where `number`=#{number} and is_delete=0 and `level`=1
     </select>
 
     <select id="checkNumberExcept" resultType="int">
-        select count(*) from event_report where `number`=#{number} and is_delete=0 and id != #{id}
+        select count(*) from event_report where `number`=#{number} and is_delete=0 and id != #{id} and `level`=1
     </select>
 
     <select id="maxNumber" resultType="string">
-        select `number` from event_report where is_delete=0 order by CONVERT(`number`,SIGNED) desc limit 1;
+        select `number` from event_report
+        where is_delete=0 and `level`=1
+        order by CONVERT(`number`,SIGNED) desc limit 1;
     </select>
 </mapper>

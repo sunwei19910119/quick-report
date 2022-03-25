@@ -2,6 +2,7 @@ package com.xhtt.modules.event.controller;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -94,6 +95,9 @@ public class EventReportController {
             if(parentEntity.getStatus() != 1){
                 throw new RRException("首次上报提交后，才能进行续报");
             }
+            if(parentEntity.getParentId() == 0){
+                throw new RRException("续报对象必须是首报");
+            }
         }
         eventReport.setUploadImage(JSON.toJSONString(eventReport.getUploadImageList()));
         eventReport.setUploadVideo(JSON.toJSONString(eventReport.getUploadVideoList()));
@@ -110,9 +114,13 @@ public class EventReportController {
         }
         //记录创建者市平台ID
         eventReport.setCreateUserConnectId(sysUser.getUserConnectId());
+        eventReport.setCreateBy(sysUser.getNickName());
         //校验number重复
         if(eventReportDao.checkNumber(eventReport.getNumber()) > 0){
             return R.error("编号不能重复");
+        }
+        if(eventReport.getReportTime() == null){
+            eventReport.setReportTime(new Date());
         }
         eventReportService.save(eventReport);
         //如果number为空,插入主键

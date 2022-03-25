@@ -14,14 +14,15 @@ dynamic:
     datasource:
       slave1:
             driverClassName: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://192.168.1.222:3306/czyj_base?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+            url: jdbc:mysql://117.88.41.38:3306/czyj_base?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+#            url: jdbc:mysql://192.168.1.222:3306/czyj_base?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
             username: root
-            password: root
+            password: Sunwei190711
       slave2:
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://192.168.1.222:3306/czyj_zbzs?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://117.88.41.38:3306/czyj_zbzs?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
         username: root
-        password: root
+        password: Sunwei190711
 
 #短信地址
 sms:

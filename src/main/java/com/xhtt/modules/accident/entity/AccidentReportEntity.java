@@ -41,13 +41,11 @@ public class AccidentReportEntity implements Serializable {
 	/**
 	 * 标题
 	 */
-	@NotBlank
 	private String title;
 
 	/**
 	 * 事故单位名称
 	 */
-	@NotBlank
 	private String companyName;
 	/**
 	 * 所在区县
@@ -64,30 +62,25 @@ public class AccidentReportEntity implements Serializable {
 	/**
 	 * 报告时间
 	 */
-	@NotNull
 	@DateTimeFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date reportTime;
 	/**
 	 * 接报信息时间
 	 */
-	@NotNull
 	@DateTimeFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date receiveTime;
 	/**
 	 * 接报信息途径
 	 */
-	@NotBlank
 	private String receiveWay;
 	/**
 	 * 事故时间
 	 */
-	@NotNull
 	@DateTimeFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date accidentTime;
 	/**
 	 * 事故地点
 	 */
-	@NotBlank
 	private String accidentSite;
 	/**
 	 * 涉险总人数
@@ -116,7 +109,6 @@ public class AccidentReportEntity implements Serializable {
 	/**
 	 * 事故简况
 	 */
-	@NotBlank
 	private String accidentDescription;
 	/**
 	 * 备注
@@ -125,7 +117,6 @@ public class AccidentReportEntity implements Serializable {
 	/**
 	 * 报告人
 	 */
-	@NotBlank
 	private String reporter;
 	/**
 	 * 创建者
@@ -134,12 +125,10 @@ public class AccidentReportEntity implements Serializable {
 	/**
 	 * 科室负责人
 	 */
-	@NotBlank
 	private String departmentHead;
 	/**
 	 * 联系电话
 	 */
-	@NotBlank
 	private String phone;
 	/**
 	 * 删除 0否 1是

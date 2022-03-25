@@ -54,4 +54,27 @@ public class AccidentReportSimpleVo {
 	 * 状态：0草稿，1待签发，2退回，3签发完成
 	 */
 	private Integer status;
+
+	private Integer parentId;
+
+	private Integer eventLevel;
+
+	private String eventLevelString;
+
+
+	public String getEventLevelString() {
+		switch (eventLevel) {
+			case 0 : return "特别重大";
+			case 1 : return "重大";
+			case 2 : return "特大";
+			case 3 : return "一般";
+			default : return "其他";
+		}
+	}
+
+	public void setEventLevelString(String eventLevelString) {
+		this.eventLevelString = eventLevelString;
+	}
+
+
 }

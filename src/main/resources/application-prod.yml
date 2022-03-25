@@ -22,4 +22,4 @@ dynamic:
             password: fxtb2021!@#
 #短信地址
 sms:
-  url: http://106.15.58.109:9317/message/sendYdMess
+  url: http://192.168.209.178:9317/message/sendYdMess

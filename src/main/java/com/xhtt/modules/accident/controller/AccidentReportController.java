@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,6 +37,8 @@ import com.xhtt.modules.accident.service.AccidentReportService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import static cn.hutool.core.date.DateTime.now;
 
 
 /**
@@ -99,6 +102,9 @@ public class AccidentReportController {
             if(parentEntity.getStatus() != 1){
                 throw new RRException("首次上报提交后，才能进行续报");
             }
+            if(parentEntity.getParentId() == 0){
+                throw new RRException("续报对象必须是首报");
+            }
         }
         accidentReport.setUploadImage(JSON.toJSONString(accidentReport.getUploadImageList()));
         accidentReport.setUploadVideo(JSON.toJSONString(accidentReport.getUploadVideoList()));
@@ -114,9 +120,13 @@ public class AccidentReportController {
         }
         //记录创建者市平台ID
         accidentReport.setCreateUserConnectId(sysUser.getUserConnectId());
+        accidentReport.setCreateBy(sysUser.getNickName());
         //校验number重复
         if(accidentReportDao.checkNumber(accidentReport.getNumber()) > 0){
             return R.error("编号不能重复");
+        }
+        if(accidentReport.getReportTime() == null){
+            accidentReport.setReportTime(new Date());
         }
         accidentReportService.save(accidentReport);
         //如果number为空,插入主键

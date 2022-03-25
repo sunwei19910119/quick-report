@@ -78,6 +78,7 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
 //            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
 //        }
         params.put("userId",sysUser.getUserConnectId());
+        params.put("countyCode",sysUser.getCountyCode());
         List<AccidentReportSimpleVo> list  = baseMapper.reportList(page, params);
         list.forEach(this::convertRegion);
         page.setRecords(list);

@@ -65,13 +65,11 @@ public class EventReportEntity implements Serializable {
 	/**
 	 * 报告时间
 	 */
-	@NotNull
 	@DateTimeFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date reportTime;
 	/**
 	 * 接报信息时间
 	 */
-	@NotNull
 	@DateTimeFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date receiveTime;
 	/**
@@ -81,13 +79,11 @@ public class EventReportEntity implements Serializable {
 	/**
 	 * 事故时间
 	 */
-	@NotNull
 	@DateTimeFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date accidentTime;
 	/**
 	 * 事故地点
 	 */
-	@NotBlank
 	private String accidentSite;
 	/**
 	 * 涉险总人数

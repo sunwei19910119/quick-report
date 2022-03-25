@@ -102,7 +102,7 @@ public class AccidentReportController {
             if(parentEntity.getStatus() != 1){
                 throw new RRException("首次上报提交后，才能进行续报");
             }
-            if(parentEntity.getParentId() == 0){
+            if(parentEntity.getParentId() != 0){
                 throw new RRException("续报对象必须是首报");
             }
         }

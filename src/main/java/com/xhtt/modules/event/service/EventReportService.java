@@ -9,6 +9,7 @@ import com.xhtt.modules.sys.entity.SysUserEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +38,8 @@ public interface EventReportService extends IService<EventReportEntity> {
     void accidentReportRefuse(EventReportEntity eventReportEntity);
 
     void getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
+
+    String getExportMapList(List<Integer> ids, HttpServletResponse response, SysUserEntity user) throws Exception;
 
     R checkNumber(String number);
 }

@@ -7,7 +7,9 @@ import com.xhtt.modules.accident.controller.vo.AccidentReportSimpleVo;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.sys.entity.SysUserEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +36,7 @@ public interface AccidentReportService extends IService<AccidentReportEntity> {
 
     void getExportMap(Integer id, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
 
-    void getExportMapList(List<Integer> ids, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException;
+    String getExportMapList(List<Integer> ids, HttpServletResponse response, SysUserEntity user) throws Exception;
 
     R checkNumber(String number);
 }

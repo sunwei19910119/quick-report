@@ -19,16 +19,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.zip.ZipOutputStream;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -38,6 +39,7 @@ import com.xhtt.modules.accident.dao.AccidentReportDao;
 import com.xhtt.modules.accident.entity.AccidentReportEntity;
 import com.xhtt.modules.accident.service.AccidentReportService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -62,6 +64,12 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     @Autowired
     RedisUtils redis;
 
+    @Value("${renren.file.zipPath: null}")
+    private String zipPath;
+
+    @Value("${renren.file.path: null}")
+    private String filePath;
+
     @Override
     public PageUtils reportList(Map<String, Object> params,SysUserEntity sysUser) {
         params.put("level","0");
@@ -78,7 +86,6 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
 //            baseZfyhjbxxEntities.stream().forEach(a -> {userConnectIds.add(a.getUserId());});
 //        }
         params.put("userId",sysUser.getUserConnectId());
-        params.put("countyCode",sysUser.getCountyCode());
         List<AccidentReportSimpleVo> list  = baseMapper.reportList(page, params);
         list.forEach(this::convertRegion);
         page.setRecords(list);
@@ -188,19 +195,134 @@ public class AccidentReportServiceImpl extends ServiceImpl<AccidentReportDao, Ac
     }
 
     @Override
-    public void getExportMapList(List<Integer> ids, HttpServletResponse response, SysUserEntity user) throws UnsupportedEncodingException {
-        Map<String, Object> map = new HashMap<>();
+    public String getExportMapList(List<Integer> ids, HttpServletResponse response, SysUserEntity user) throws Exception {
         if (CollectionUtils.isEmpty(ids)){
             throw new RRException("参数错误");
         }
-        ids.forEach(id -> {
+
+        Map<String, Object> map = new HashMap<>();
+        File path = new File(filePath);
+        String name= null ;
+        String wordDirectoryName = "word" + System.currentTimeMillis();
+        String wordDirectoryPath = path.getAbsolutePath();
+        //导出前的检查，生成word文件夹
+        beforeExportWord(path,wordDirectoryName,wordDirectoryPath);
+        ids.forEach( id -> {
+            LocalDateTime now = LocalDateTime.now();
+            AccidentReportEntity accidentReportEntity = getById(id);
+            map.put("year", now.getYear());
+            map.put("moon", now.getMonthValue());
+            map.put("day", DateUtils.format(new Date(),"dd"));
+            map.put("companyName", accidentReportEntity.getCompanyName());
+            map.put("accidentTime", DateUtils.format(accidentReportEntity.getAccidentTime(), DateUtils.DATE_PATTERN));
+            map.put("accidentSite", accidentReportEntity.getAccidentSite());
+            map.put("accidentDescription", accidentReportEntity.getAccidentDescription());
+            map.put("nickName", user.getNickName());
+            map.put("number", accidentReportEntity.getNumber());
+            map.put("countyCode", redis.get(accidentReportEntity.getCountyCode()));
+            map.put("signer", accidentReportEntity.getSigner());
+            map.put("reportUnit", accidentReportEntity.getReportUnit());
+            map.put("copyForUnit", accidentReportEntity.getCopyForUnit());
+            map.put("receiveWay", accidentReportEntity.getReceiveWay());
+            map.put("issueDate", DateUtils.format(accidentReportEntity.getIssueDate(), DateUtils.DATE_TIME_PATTERN));
+            map.put("type", accidentReportEntity.getType());
+            map.put("title", accidentReportEntity.getTitle());
+
+//            try (OutputStream fos = response.getOutputStream()) {
             try {
-                getExportMap(id,response,user);
-            } catch (UnsupportedEncodingException e) {
+                String typeName = null;
+                Date date = new Date();
+                DateUtils.format(date, "yyyyMM");
+                FileOutputStream fileOutputStream = new FileOutputStream(filePath + "\\" + wordDirectoryName+ "\\" + map.get("number") + ".docx");
+                if (Integer.parseInt(map.get("type").toString()) == 0){
+                     typeName = "zbkb";
+                }else {
+                     typeName = "tfsjxxzb";
+                }
+                XWPFDocument doc = WordExportUtil.exportWord07("templates/"+ typeName + ".docx", map);
+                try {
+                    doc.write(fileOutputStream);
+//                        fileOutputStream.write(bao.toByteArray());
+                    fileOutputStream.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                compressZipFile(response,wordDirectoryName);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
+        File word = new File(wordDirectoryPath + "/" + wordDirectoryName);
+        deleteFile(word);
+        return wordDirectoryName + ".zip";
     }
+
+
+    public void beforeExportWord(File path,String wordDirectoryName,String wordDirectoryPath) throws Exception {
+        File word = new File(wordDirectoryPath, wordDirectoryName);
+        //判断文件夹是否存在，存在清空文件夹，不存在创建文件夹
+        if (word.exists()) {
+            for (File f : word.listFiles()) {
+                f.delete();
+            }
+        } else {
+            word.mkdir();
+        }
+        File wordZip = new File(filePath, "zip");
+        if (wordZip.exists()) {
+            for (File f : wordZip.listFiles()) {
+                //f.delete();
+            }
+        } else {
+            wordZip.mkdir();
+        }
+    }
+
+
+    /**
+     * 压缩word文件夹
+     * @param response
+     * @param wordDirectoryName
+     * @throws IOException
+     */
+    public void compressZipFile(HttpServletResponse response,String wordDirectoryName) throws IOException {
+          String zipName =  wordDirectoryName + ".zip";
+        try {
+            //输出到E盘下files文件加下，名字是
+            FileOutputStream zip = new FileOutputStream(new File(zipPath + zipName));
+            ZipUtil.toZip(filePath + "\\" + wordDirectoryName, zip , true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+//            out.close();
+        }
+    }
+
+
+    /**
+     * 先根遍历序递归删除文件夹
+     *
+     * @param dirFile 要被删除的文件或者目录
+     * @return 删除成功返回true, 否则返回false
+     */
+    public static boolean deleteFile(File dirFile) {
+        // 如果dir对应的文件不存在，则退出
+        if (!dirFile.exists()) {
+            return false;
+        }
+        if (dirFile.isFile()) {
+            return dirFile.delete();
+        } else {
+            for (File file : dirFile.listFiles()) {
+                deleteFile(file);
+            }
+        }
+        return dirFile.delete();
+    }
+
+
 
     @Override
     public R checkNumber(String number) {

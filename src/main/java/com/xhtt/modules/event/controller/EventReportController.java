@@ -1,10 +1,7 @@
 package com.xhtt.modules.event.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import cn.hutool.core.util.ArrayUtil;
@@ -201,12 +198,24 @@ public class EventReportController {
      * 导出市级快报专报
      */
     @GetMapping("/export")
-    @ApiOperation("导出风险告知卡")
+    @ApiOperation("导出市级快报专报")
     @Login
     public void export(@RequestParam Integer id, HttpServletResponse response, @LoginUser SysUserEntity user) throws IOException {
         eventReportService.getExportMap(id, response, user);
     }
 
+    /**
+     * 导出市级多个快报专报
+     */
+    @GetMapping("/exportList")
+    @ApiOperation("导出市级多个快报专报")
+    @Login
+    public R exportList(@RequestParam List<Integer> ids, HttpServletResponse response, @LoginUser SysUserEntity user) throws Exception {
+        String name = eventReportService.getExportMapList(ids, response, user);
+        HashMap map = new HashMap();
+        map.put("fileName",name);
+        return R.ok(map);
+    }
 
 
     /**

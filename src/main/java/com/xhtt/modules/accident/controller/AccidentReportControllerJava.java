@@ -50,7 +50,7 @@ import static cn.hutool.core.date.DateTime.now;
  */
 @RestController
 @RequestMapping("app/accidentReport")
-public class AccidentReportController {
+class AccidentReportController {
     @Autowired
     private AccidentReportService accidentReportService;
     @Autowired

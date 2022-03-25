@@ -102,6 +102,7 @@ renren:
     header: token
   file:
     path: d:/files/
+    zipPath: d:/files/zip/
   #path: /root/trainbdb/fxtb/files/
 logging:
   config: classpath:logback-spring.xml

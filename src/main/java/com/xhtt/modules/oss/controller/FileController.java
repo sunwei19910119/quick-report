@@ -37,6 +37,8 @@ import java.util.Map;
 public class FileController {
     @Value("${renren.file.path: null}")
     private String filePath;
+    @Value("${renren.file.zipPath: null}")
+    private String zipPath;
     @Resource
     private Word2Pdf word2Pdf;
     @Autowired
@@ -81,6 +83,7 @@ public class FileController {
             httpResource.getWriter().write("不支持的类型");
             return;
         }
+
         if ("doc".equals(fileType) || "docx".equals(fileType)) {
             File nf = new File(filePath + fileN + ".pdf");
             if (!nf.exists()) {
@@ -160,6 +163,45 @@ public class FileController {
         out.close();
 //        return httpResource;
     }
+
+
+    /**
+     * 下载zip文件
+     * @param fileName
+     * @param httpResource
+     * @throws IOException
+     */
+    @RequestMapping("/downZip/{fileName}")
+    @ResponseBody
+    public void downloadZip(@PathVariable("fileName") String fileName, HttpServletResponse httpResource) throws IOException {
+        if (null == fileName || "null".equals(fileName)) {
+            throw new RRException("文件不存在");
+        }
+        String fileType = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+        String fullFileName = zipPath + fileName;
+        // 以流的形式下载文件。
+        InputStream fis = null;
+        try {
+            fis = new BufferedInputStream(new FileInputStream(fullFileName));
+        } catch (FileNotFoundException e) {
+            throw new RRException("文件不存在");
+        }
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer);
+        fis.close();
+        // 清空response
+        httpResource.reset();
+        // 设置response的Header
+//        httpResource.addHeader("Content-Disposition", "attachment;filename=" + new String(("下载文件" + fileType).getBytes(), "iso-8859-1"));
+//        httpResource.addHeader("Content-Length", "" + file.length());
+        OutputStream out = new BufferedOutputStream(httpResource.getOutputStream());
+        httpResource.setContentType("application/octet-stream");
+        out.write(buffer);
+        out.flush();
+        out.close();
+//        return httpResource;
+    }
+
 
     /**
      * 列表

@@ -3,10 +3,7 @@ package com.xhtt.modules.accident.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import cn.afterturn.easypoi.word.WordExportUtil;
@@ -205,15 +202,18 @@ class AccidentReportController {
         accidentReportService.getExportMap(id, response, user);
     }
 
-//    /**
-//     * 导出区级多个快报专报
-//     */
-//    @GetMapping("/exportList")
-//    @ApiOperation("导出风险告知卡")
-//    @Login
-//    public void exportList(@RequestParam List<Integer> ids, HttpServletResponse response, @LoginUser SysUserEntity user) throws IOException {
-//        accidentReportService.getExportMapList(ids, response, user);
-//    }
+    /**
+     * 导出区级多个快报专报
+     */
+    @GetMapping("/exportList")
+    @ApiOperation("导出区级多个快报专报")
+    @Login
+    public R exportList(@RequestParam List<Integer> ids, HttpServletResponse response, @LoginUser SysUserEntity user) throws Exception {
+        String name = accidentReportService.getExportMapList(ids, response, user);
+        HashMap map = new HashMap();
+        map.put("fileName",name);
+        return R.ok(map);
+    }
 
 
     /**
